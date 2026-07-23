@@ -1,0 +1,25 @@
+digraph G {
+  graph [rankdir=LR, bgcolor="#FBF7EF", pad=0.28, margin=0, nodesep=0.34, ranksep=0.58, fontname="PingFang SC", label="场景投资组合：资源随证据流动，而不是随热度流动", labelloc=t, fontsize=20, fontcolor="#18363A", size="11.3,7.7", ratio=compress];
+  node [shape=box, style="rounded,filled", fillcolor="#F4EBDD", color="#0F5961", fontcolor="#18363A", penwidth=1.5, fontname="PingFang SC", fontsize=11, margin="0.16,0.10"];
+  edge [color="#0F5961", penwidth=1.4, arrowsize=0.75, fontname="PingFang SC", fontsize=9, fontcolor="#18363A"];
+
+  input [label="季度共同事实\n业务价值 · 证据成熟度 · 风险\n运营负担 · 单位经济 · 复用潜力", fillcolor="#DDEBE8"];
+  explore [label="探索\n小额限时预算\n关闭关键未知"];
+  validate [label="验证\n业务 Owner、样本\n流程与五类门禁"];
+  production [label="生产\nSLO、值班、知识运营\n预算与持续经营卡"];
+  scale [label="扩大\n单位经济成立\n责任与容量同步增加"];
+  maintain [label="维持\n价值稳定但不优先新增\n控制运营负担"];
+  exit [label="退出\n撤销权限、数据与供应商\n处理未完成任务", fillcolor="#F6E3D2", color="#A75E21"];
+  review [shape=diamond, label="新证据是否支持\n继续投入或改变状态？", fillcolor="#F1DCC7", color="#A75E21"];
+  capacity [label="容量再配置\n稳定与安全 40%\n已验证增长 30%\n共享能力 20% · 探索 10%", fillcolor="#DDEBE8"];
+
+  input -> review;
+  review -> {explore validate production scale maintain exit};
+  explore -> validate [label="未知关闭"];
+  validate -> production [label="受控证据成立"];
+  production -> scale [label="价值与责任成立"];
+  scale -> maintain [label="边际价值下降"];
+  {validate production scale maintain} -> exit [label="价值/底线不再成立", color="#A75E21"];
+  {explore validate production scale maintain exit} -> capacity [style=dashed];
+  capacity -> input [label="下一季度"];
+}

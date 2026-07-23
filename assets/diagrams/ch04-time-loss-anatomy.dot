@@ -1,0 +1,20 @@
+digraph G {
+  graph [bgcolor="#FBF7EF", pad="0.34", nodesep="0.40", ranksep="0.48", splines=polyline, fontname="PingFang SC", rankdir=TB];
+  node [shape=box, style="rounded,filled", fillcolor="#FFFFFF", color="#0F5961", penwidth=1.8, fontname="PingFang SC", fontcolor="#18363A", fontsize=17, margin="0.20,0.14"];
+  edge [color="#0F5961", penwidth=1.8, arrowsize=0.8, fontname="PingFang SC", fontcolor="#18363A", fontsize=12];
+
+  start [label="商机确认\n9:12", fillcolor="#0F5961", fontcolor="#FFFFFF"];
+  move [label="搬运\n聊天、转写、CRM\n19 分钟"];
+  search [label="查找＋等待\n模板、版本、产品确认\n47 分钟"];
+  draft [label="写作＋判断\n正文、交付限制\n48 分钟", fillcolor="#DCECE8"];
+  wait1 [label="等待主管\n194 分钟", fillcolor="#F3E4D2", color="#A75E21"];
+  rework [label="返工＋审批等待\n17＋1177＋314 分钟", fillcolor="#F3E4D2", color="#A75E21"];
+  end [label="可评审草稿\n次日 15:28", fillcolor="#0F5961", fontcolor="#FFFFFF"];
+  insight [label="诊断结论\nAI 缩短写作，不等于缩短端到端周期\n优先减少等待、返工与错误路由", fillcolor="#FFFFFF", color="#A75E21", penwidth=2.2];
+
+  {rank=same; start; move; search; draft}
+  {rank=same; wait1; rework; end}
+  start -> move -> search -> draft -> wait1 -> rework -> end;
+  draft -> insight [label="仅优化这一段", color="#A75E21"];
+  rework -> insight [label="更大的流程损耗", color="#A75E21"];
+}

@@ -1,0 +1,25 @@
+digraph G {
+  graph [rankdir=LR, bgcolor="#FBF7EF", pad=0.28, margin=0, nodesep=0.36, ranksep=0.62, fontname="PingFang SC", label="模型账单如何归属到一个被采用的业务结果", labelloc=t, fontsize=20, fontcolor="#18363A", size="11.3,7.7", ratio=compress];
+  node [shape=box, style="rounded,filled", fillcolor="#F4EBDD", color="#0F5961", fontcolor="#18363A", penwidth=1.5, fontname="PingFang SC", fontsize=12, margin="0.17,0.11"];
+  edge [color="#0F5961", penwidth=1.5, arrowsize=0.8, fontname="PingFang SC", fontsize=10, fontcolor="#18363A"];
+
+  task [label="business_task_id\n一个销售方案任务", fillcolor="#DDEBE8"];
+  rewrite [label="检索改写\n调用与缓存成本"];
+  generate [label="主生成\n模型与基础设施成本"];
+  verify [label="事实/结构核查\n规则、模型与重试成本"];
+  platform [label="网关、检索、追踪\n平台可归属成本"];
+  review [label="人工复核与修改\n时间成本"];
+  aggregate [label="按业务任务聚合\n总调用 · 总费用 · 总等待\n版本、重试与失败原因", fillcolor="#F1DCC7", color="#A75E21"];
+  quality [shape=diamond, label="通过质量与\n风险门禁？", fillcolor="#DDEBE8"];
+  adoption [shape=diamond, label="被用户实际\n采用并完成任务？", fillcolor="#DDEBE8"];
+  unit [label="单位被采用任务成本\n（模型 + 平台 + 人审）\n÷ 被采用任务数", fillcolor="#DDEBE8"];
+  waste [label="失败或无效成本\n定位多余重试、润色与绕行", fillcolor="#F6E3D2", color="#A75E21"];
+
+  task -> {rewrite generate verify platform review};
+  {rewrite generate verify platform review} -> aggregate;
+  aggregate -> quality;
+  quality -> adoption [label="通过"];
+  quality -> waste [label="未通过", color="#A75E21"];
+  adoption -> unit [label="采用"];
+  adoption -> waste [label="放弃", color="#A75E21"];
+}

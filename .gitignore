@@ -1,0 +1,14 @@
+.DS_Store
+__pycache__/
+*.py[cod]
+.venv/
+
+# Private editorial sources and local build products must not enter this repo.
+private/
+archive/
+editorial/
+output/
+dist/
+tmp/
+*.pdf
+*.docx

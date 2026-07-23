@@ -1,0 +1,27 @@
+digraph G {
+  graph [rankdir=TB, bgcolor="#FBF7EF", pad=0.28, margin=0, nodesep=0.38, ranksep=0.6, fontname="PingFang SC", label="用不确定性台账驱动 POC，而不是用功能数量驱动", labelloc=t, fontsize=20, fontcolor="#18363A"];
+  node [shape=box, style="rounded,filled", fillcolor="#F4EBDD", color="#0F5961", fontcolor="#18363A", penwidth=1.5, fontname="PingFang SC", fontsize=11, margin="0.16,0.10"];
+  edge [color="#0F5961", penwidth=1.45, arrowsize=0.75, fontname="PingFang SC", fontsize=9, fontcolor="#18363A"];
+
+  unknowns [label="关键未知清单\n采用 · 知识 · 模型质量\n集成恢复 · 风险 · 单位经济", fillcolor="#DDEBE8"];
+  rank [label="排序\n对投资决定的影响 × 暴露风险\n兼顾最小验证成本"];
+  experiment [label="最小实验\n真实样本 / 历史盲评 / 沙箱故障\n受控用户灰度 / 成本情景"];
+  evidence [label="可复查证据\n窗口、样本、版本、限制\nOwner 与可信度", fillcolor="#F1DCC7", color="#A75E21"];
+  rule [shape=diamond, label="证据支持原假设，\n且五类门禁与阶段匹配？", fillcolor="#DDEBE8"];
+  continue [label="继续\n进入下一阶段并承诺资源", fillcolor="#DDEBE8"];
+  shrink [label="缩小\n减少任务、数据、自主性或用户", fillcolor="#F6E3D2", color="#A75E21"];
+  pause [label="暂停\n等待 Owner、接口或专业判断", fillcolor="#F6E3D2", color="#A75E21"];
+  stop [label="终止\n退出、清理权限与资源\n保留可复用学习", fillcolor="#F6E3D2", color="#A75E21"];
+  ledger [label="更新台账\n已证实 · 已证伪 · 剩余风险\n临时控制与失效日期"];
+
+  {rank=same; unknowns; rank; experiment;}
+  {rank=same; evidence; rule;}
+  {rank=same; continue; shrink; pause; stop;}
+  unknowns -> rank -> experiment -> evidence -> rule;
+  rule -> continue [label="通过"];
+  rule -> shrink [label="部分成立"];
+  rule -> pause [label="关键条件未就绪"];
+  rule -> stop [label="价值或底线不成立"];
+  {continue shrink pause stop} -> ledger;
+  ledger -> unknowns [label="下一轮最关键未知"];
+}

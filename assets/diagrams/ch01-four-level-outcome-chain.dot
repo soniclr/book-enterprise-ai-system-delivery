@@ -1,0 +1,19 @@
+digraph G {
+  graph [bgcolor="#FBF7EF", pad="0.34", nodesep="0.48", ranksep="0.58", splines=polyline, fontname="PingFang SC", rankdir=TB];
+  node [shape=box, style="rounded,filled", fillcolor="#FFFFFF", color="#0F5961", penwidth=2.0, fontname="PingFang SC", fontcolor="#18363A", fontsize=18, width=2.35, height=1.05, margin="0.18,0.12"];
+  edge [color="#0F5961", penwidth=2.1, arrowsize=0.9, fontname="PingFang SC", fontcolor="#18363A", fontsize=13];
+
+  model [label="模型表现\n摘要完整｜引用相关｜字段正确"];
+  system [label="系统行为\n权限检索｜结构校验｜审批写回"];
+  process [label="流程结果\n少查找｜少等待｜少返工"];
+  business [label="企业结果\n更及时、更可靠地响应有效商机", fillcolor="#0F5961", fontcolor="#FFFFFF"];
+  evidence [label="证据与决策\n样本｜事件｜护栏｜继续/缩小/停止", fillcolor="#F3E4D2", color="#A75E21", penwidth=2.1];
+
+  {rank=same; model; system}
+  {rank=same; process; business}
+  model -> system [label="必须改变"];
+  system -> process [label="必须减少损耗"];
+  process -> business [label="必须影响结果"];
+  business -> evidence [color="#A75E21", label="观测"];
+  evidence -> model [color="#A75E21", label="回到薄弱环节", constraint=false, style=dashed];
+}

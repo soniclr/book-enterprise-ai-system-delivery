@@ -1,0 +1,15 @@
+digraph G {
+  graph [bgcolor="#FBF7EF", pad="0.34", nodesep="0.48", ranksep="0.50", splines=polyline, fontname="PingFang SC", rankdir=TB];
+  node [shape=box, style="rounded,filled", fillcolor="#FFFFFF", color="#0F5961", penwidth=1.9, fontname="PingFang SC", fontcolor="#18363A", fontsize=17, width=2.15, height=1.35, margin="0.18,0.13"];
+  edge [color="#0F5961", penwidth=2.0, arrowsize=0.85, fontname="PingFang SC", fontcolor="#18363A", fontsize=12];
+
+  s [label="S｜供应者\n销售｜CRM\n产品/交付团队\n知识 Owner"];
+  i [label="I｜输入\n客户需求｜产品资料\n案例｜SOP\n模板｜报价规则"];
+  p [label="P｜过程\n检查 → 检索 → 生成\n→ 确认 → 审批 → 写回", fillcolor="#0F5961", fontcolor="#FFFFFF"];
+  o [label="O｜输出\n带引用、经确认的方案草稿\n＋CRM 状态"];
+  c [label="C｜客户\n销售｜主管\n交付团队｜最终客户", fillcolor="#F3E4D2", color="#A75E21"];
+
+  {rank=same; s; i}
+  {rank=same; o; c}
+  s -> i -> p -> o -> c;
+}

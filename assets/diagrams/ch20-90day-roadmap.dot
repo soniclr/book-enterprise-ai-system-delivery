@@ -1,0 +1,29 @@
+digraph G {
+  graph [rankdir=TB, bgcolor="#FBF7EF", pad=0.28, margin=0, nodesep=0.34, ranksep=0.6, fontname="PingFang SC", label="90 天路线图：每 30 天用证据决定下一段投资", labelloc=t, fontsize=20, fontcolor="#18363A"];
+  node [shape=box, style="rounded,filled", fillcolor="#F4EBDD", color="#0F5961", fontcolor="#18363A", penwidth=1.5, fontname="PingFang SC", fontsize=11, margin="0.16,0.10"];
+  edge [color="#0F5961", penwidth=1.45, arrowsize=0.75, fontname="PingFang SC", fontsize=9, fontcolor="#18363A"];
+
+  p1 [label="第 1—30 天：稳定销售试点\n修前三类失败 · 建知识责任\n稳定 SLO、成本与周运营\n明确不做：新部门与新写权限", fillcolor="#DDEBE8"];
+  g1 [shape=diamond, label="第 30 天门\n当前场景已稳定，\n允许验证第二场景？", fillcolor="#F1DCC7", color="#A75E21"];
+  p2 [label="第 31—60 天：验证相邻场景\n建立独立 As-Is、权限与评估\n复用身份、网关和 trace\n证明复用减少交付与风险成本"];
+  g2 [shape=diamond, label="第 60 天门\n共性接口稳定，\n值得平台化？", fillcolor="#F1DCC7", color="#A75E21"];
+  p3 [label="第 61—90 天：决定平台范围\n形成服务契约、SLO 与接入手册\n完成经营卡、组合评审和退出清理\n形成下一季度投资组合", fillcolor="#DDEBE8"];
+  g3 [shape=diamond, label="第 90 天门\n继续、维持、缩小\n还是退出？", fillcolor="#F1DCC7", color="#A75E21"];
+  hold [label="失败分支\n先修复、缩小或暂停\n不把未稳定能力包装成平台", fillcolor="#F6E3D2", color="#A75E21"];
+  capacity [label="全程预留运行容量\n生产稳定与安全优先\n错误预算耗尽时暂停扩展", fillcolor="#DDEBE8"];
+
+  {rank=same; p1; g1;}
+  {rank=same; p2; g2;}
+  {rank=same; p3; g3;}
+  {rank=same; hold; capacity;}
+  p1 -> g1;
+  g1 -> p2 [label="是"];
+  g1 -> hold [label="否", color="#A75E21"];
+  p2 -> g2;
+  g2 -> p3 [label="是"];
+  g2 -> hold [label="否", color="#A75E21"];
+  p3 -> g3;
+  g3 -> hold [label="缩小/暂停/退出", color="#A75E21"];
+  {p1 p2 p3} -> capacity [style=dashed];
+  hold -> p1 [label="新证据后重新进入"];
+}

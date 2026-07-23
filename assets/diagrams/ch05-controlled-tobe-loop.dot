@@ -1,0 +1,35 @@
+digraph G {
+  graph [bgcolor="#FBF7EF", pad="0.32", nodesep="0.38", ranksep="0.45", splines=polyline, fontname="PingFang SC", rankdir=TB];
+  node [shape=box, style="rounded,filled", fillcolor="#FFFFFF", color="#0F5961", penwidth=1.7, fontname="PingFang SC", fontcolor="#18363A", fontsize=15, margin="0.17,0.12"];
+  edge [color="#0F5961", penwidth=1.7, arrowsize=0.75, fontname="PingFang SC", fontcolor="#18363A", fontsize=11];
+
+  trigger [label="销售发起\n有效商机", fillcolor="#0F5961", fontcolor="#FFFFFF"];
+  check [label="输入完整性\n确定性检查"];
+  retrieve [label="权限检索\n有效版本＋引用"];
+  draft [label="AI 草拟\n摘要＋大纲＋待确认项"];
+  sales [label="销售确认\n事实＋引用＋修改"];
+  risk [label="是否涉及\n报价或承诺？", shape=diamond, style="filled", fillcolor="#F3E4D2", color="#A75E21"];
+  approval [label="主管审批\n只判断关键偏差"];
+  write [label="幂等创建草稿\n验证 CRM 后置条件"];
+  done [label="完成\n文档＋CRM 状态", fillcolor="#0F5961", fontcolor="#FFFFFF"];
+  supplement [label="补充缺失事实\n保留任务上下文", fillcolor="#F3E4D2", color="#A75E21"];
+  knowledge [label="知识缺口/冲突队列\nOwner 处理", fillcolor="#F3E4D2", color="#A75E21"];
+  feedback [label="反馈回路\n内容｜流程｜知识｜业务", fillcolor="#FFFFFF", color="#A75E21"];
+
+  {rank=same; trigger; check; supplement}
+  {rank=same; retrieve; knowledge}
+  {rank=same; draft; sales; risk}
+  {rank=same; approval; write; done}
+  trigger -> check -> retrieve -> draft -> sales -> risk;
+  risk -> approval [label="是"];
+  risk -> write [label="否"];
+  approval -> write [label="批准"];
+  write -> done;
+  check -> supplement [label="缺失", color="#A75E21"];
+  supplement -> check [label="补齐", color="#A75E21"];
+  retrieve -> knowledge [label="无结果/冲突", color="#A75E21"];
+  knowledge -> retrieve [label="更新后重试", color="#A75E21"];
+  approval -> sales [label="拒绝/补充", color="#A75E21"];
+  done -> feedback [color="#A75E21"];
+  feedback -> check [label="进入下一轮改进", color="#A75E21", constraint=false];
+}

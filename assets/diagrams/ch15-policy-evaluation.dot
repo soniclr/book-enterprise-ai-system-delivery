@@ -1,0 +1,26 @@
+digraph G {
+  graph [rankdir=TB, bgcolor="#FBF7EF", pad=0.28, margin=0, nodesep=0.38, ranksep=0.58, fontname="PingFang SC", label="一次模型网关策略求值如何发生", labelloc=t, fontsize=20, fontcolor="#18363A"];
+  node [shape=box, style="rounded,filled", fillcolor="#F4EBDD", color="#0F5961", fontcolor="#18363A", penwidth=1.5, fontname="PingFang SC", fontsize=12, margin="0.17,0.11"];
+  edge [color="#0F5961", penwidth=1.5, arrowsize=0.8, fontname="PingFang SC", fontsize=10, fontcolor="#18363A"];
+
+  envelope [label="业务请求信封\n用户与委托 · 应用与场景\n任务影响 · 数据分级 · 控制要求", fillcolor="#DDEBE8"];
+  verify [label="验证可信属性\n令牌身份 · 场景目录\n数据标签 · 允许处理区域"];
+  deny0 [label="拒绝或保守路径\n关键属性无法验证", fillcolor="#F6E3D2", color="#A75E21"];
+  filter [label="候选过滤（不可被后级覆盖）\n1 法律与数据禁止\n2 身份与授权\n3 高风险动作限制", fillcolor="#F1DCC7", color="#A75E21"];
+  select [label="允许集合内排序\n4 最低质量与功能\n5 可用性与延迟\n6 成本与体验"];
+  choose [shape=diamond, label="存在同时满足\n底线与能力的通道？", fillcolor="#DDEBE8"];
+  route [label="返回路由决定\n逻辑模型 · 实际渠道 · 降级状态\n附加人审 · route_decision_id", fillcolor="#DDEBE8"];
+  deny [label="无获准处理路径\n转人工、排队或明确停止", fillcolor="#F6E3D2", color="#A75E21"];
+  audit [label="不可抵赖记录\n候选集合 · 排除原因\n策略版本 · 成本与 trace"];
+
+  {rank=same; envelope; verify; deny0;}
+  {rank=same; filter; select;}
+  {rank=same; choose; route; deny;}
+  envelope -> verify;
+  verify -> filter [label="通过"];
+  verify -> deny0 [label="失败", color="#A75E21"];
+  filter -> select -> choose;
+  choose -> route [label="是"];
+  choose -> deny [label="否", color="#A75E21"];
+  {route deny deny0} -> audit;
+}

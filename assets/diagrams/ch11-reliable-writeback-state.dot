@@ -1,0 +1,29 @@
+digraph G {
+  graph [bgcolor="#FBF7EF", pad="0.34", nodesep="0.36", ranksep="0.48", splines=polyline, fontname="PingFang SC", rankdir=TB];
+  node [shape=box, style="rounded,filled", fillcolor="#FFFFFF", color="#0F5961", penwidth=1.8, fontname="PingFang SC", fontcolor="#18363A", fontsize=14, margin="0.17,0.11"];
+  edge [color="#0F5961", penwidth=1.8, arrowsize=0.78, fontname="PingFang SC", fontcolor="#18363A", fontsize=10];
+
+  confirm [label="确认具体变更\n对象＋字段新旧值＋内容版本＋审批", fillcolor="#0F5961", fontcolor="#FFFFFF"];
+  validate [label="执行前校验\n身份、状态、字段白名单、批准版本"];
+  key [label="生成并固定幂等键\n场景：对象：版本：动作", fillcolor="#F3E4D2", color="#A75E21"];
+  ledger [label="写操作账本\n保存请求哈希与期望前置状态"];
+  call [label="调用最小写回工具"];
+  response [label="下游结果是什么？", shape=diamond, style="filled", fillcolor="#F3E4D2", color="#A75E21"];
+  verify [label="重新读取权威对象\n验证内容、权限、Owner 与状态"];
+  done [label="写回已验证\n记录外部对象 ID 和证据", fillcolor="#0F5961", fontcolor="#FFFFFF"];
+  transient [label="临时故障\n同一幂等键＋有限退避"];
+  unknown [label="结果未知\n先查询／对账，禁止换键重试", fillcolor="#F6DDD7", color="#A75E21"];
+  reject [label="权限／输入／业务冲突\n不自动提权或重试\n重新授权、确认或转人工", fillcolor="#F6DDD7", color="#A75E21"];
+  recover [label="恢复队列\n已完成步骤＋差异＋可用动作"];
+
+  confirm -> validate -> key -> ledger -> call -> response;
+  response -> verify [label="成功或已存在"];
+  verify -> done [label="后置条件成立"];
+  verify -> recover [label="不成立", color="#A75E21"];
+  response -> transient [label="临时故障"];
+  transient -> call [label="总时限内"];
+  response -> unknown [label="超时且可能成功", color="#A75E21"];
+  unknown -> recover;
+  response -> reject [label="拒绝／冲突", color="#A75E21"];
+  reject -> recover;
+}

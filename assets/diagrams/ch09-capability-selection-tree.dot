@@ -1,0 +1,17 @@
+digraph G {
+  graph [bgcolor="#FBF7EF", pad="0.34", nodesep="0.40", ranksep="0.48", splines=polyline, fontname="PingFang SC", rankdir=TB];
+  node [shape=box, style="rounded,filled", fillcolor="#FFFFFF", color="#0F5961", penwidth=1.8, fontname="PingFang SC", fontcolor="#18363A", fontsize=15, margin="0.18,0.12"];
+  edge [color="#0F5961", penwidth=1.8, arrowsize=0.78, fontname="PingFang SC", fontcolor="#18363A", fontsize=10];
+
+  task [label="先拆成具体子任务\n输入、输出、风险、业务动作", fillcolor="#0F5961", fontcolor="#FFFFFF"];
+  rule [label="① 规则能否明确编码？\n能：普通软件／规则\n不能且需语言理解：模型＋结构校验", fillcolor="#F3E4D2", color="#A75E21"];
+  knowledge [label="② 是否依赖企业或时效事实？\n是：结构化查询或权限感知 RAG\n保留版本、来源和引用", fillcolor="#F3E4D2", color="#A75E21"];
+  path [label="③ 路径与状态能否事先列出？\n能：工作流控制主路径\n不能：仅开放部分使用有限 Agent", fillcolor="#F3E4D2", color="#A75E21"];
+  impact [label="④ 是否包含高影响写操作？\n是：Agent 只提议\n规则／审批／工作流执行", fillcolor="#F3E4D2", color="#A75E21"];
+  result [label="形成最小能力组合\n每增加一层复杂性\n都必须对应一个真实缺口", fillcolor="#0F5961", fontcolor="#FFFFFF"];
+
+  {rank=same; task; rule}
+  {rank=same; knowledge; path}
+  {rank=same; impact; result}
+  task -> rule -> knowledge -> path -> impact -> result;
+}

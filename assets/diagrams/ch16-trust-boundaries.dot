@@ -1,0 +1,28 @@
+digraph G {
+  graph [rankdir=TB, bgcolor="#FBF7EF", pad=0.28, margin=0, nodesep=0.34, ranksep=0.58, fontname="PingFang SC", label="从用户身份到现实动作的信任边界", labelloc=t, fontsize=20, fontcolor="#18363A"];
+  node [shape=box, style="rounded,filled", fillcolor="#F4EBDD", color="#0F5961", fontcolor="#18363A", penwidth=1.5, fontname="PingFang SC", fontsize=11, margin="0.16,0.10"];
+  edge [color="#0F5961", penwidth=1.4, arrowsize=0.75, fontname="PingFang SC", fontsize=9, fontcolor="#18363A"];
+
+  user [label="真实用户\n角色、对象范围、当前权限", fillcolor="#DDEBE8"];
+  app [label="业务应用\n建立任务与数据语境"];
+  gateway [label="模型网关\n验证身份、分级与允许路径"];
+  knowledge [label="知识服务\n对象级权限、版本与来源"];
+  workflow [label="工作流\n状态、规则、审批与幂等"];
+  model [label="模型/Agent\n只能提出文本、计划与候选命令", fillcolor="#F1DCC7", color="#A75E21"];
+  tool [label="工具执行区\n独立身份、严格 schema、沙箱"];
+  system [label="CRM / 文档 / 外部服务\n再次授权并验证后置条件", fillcolor="#DDEBE8"];
+  audit [label="审计与局部停止\ntrace · 批准 ID · 撤销 · 隔离", fillcolor="#F6E3D2", color="#A75E21"];
+
+  {rank=same; user; app; gateway;}
+  {rank=same; knowledge; model; workflow;}
+  {rank=same; tool; system; audit;}
+  user -> app [label="边界① 认证"];
+  app -> gateway [label="边界② 委托与数据标签"];
+  app -> knowledge [label="边界③ 最小必要读取"];
+  {gateway knowledge} -> model [label="获准上下文"];
+  model -> workflow [label="候选结果/动作"];
+  workflow -> tool [label="边界④ 具体批准与一次性令牌"];
+  tool -> system [label="边界⑤ 对象与字段再授权"];
+  gateway -> system [style=dashed, label="边界⑥ 获准外部模型路径"];
+  {app gateway knowledge workflow tool system} -> audit [style=dashed, color="#A75E21"];
+}

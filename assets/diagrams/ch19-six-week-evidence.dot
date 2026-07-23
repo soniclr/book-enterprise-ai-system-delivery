@@ -1,0 +1,17 @@
+digraph G {
+  graph [rankdir=LR, bgcolor="#FBF7EF", pad=0.28, margin=0, nodesep=0.25, ranksep=0.56, fontname="PingFang SC", label="六周 POC：每周交付一份证据和一项决定", labelloc=t, fontsize=20, fontcolor="#18363A", size="11.3,7.7", ratio=compress];
+  node [shape=box, style="rounded,filled", fillcolor="#F4EBDD", color="#0F5961", fontcolor="#18363A", penwidth=1.4, fontname="PingFang SC", fontsize=10, margin="0.14,0.09"];
+  edge [color="#0F5961", penwidth=1.35, arrowsize=0.7, fontname="PingFang SC", fontsize=8.5, fontcolor="#18363A"];
+
+  w1 [label="第 1 周\n问题与基线\nAs-Is、数据流、80 条样本\n决定：场景是否值得继续", fillcolor="#DDEBE8"];
+  w2 [label="第 2 周\n知识与能力 POC\n分层评估、失败类型、ADR\n决定：能力组合与承诺范围"];
+  w3 [label="第 3 周\n工作流与集成\n身份、状态、超时、幂等\n决定：集成能否安全恢复"];
+  w4 [label="第 4 周\n平台与控制\n网关、trace、成本、暂停\n决定：底线能否运行"];
+  w5 [label="第 5 周\n真实用户灰度\n采用、修改、退回、支持\n决定：真实流程是否成立"];
+  w6 [label="第 6 周\n回归、验收与交接\n门禁、恢复、经济、接手\n决定：下一阶段与资源", fillcolor="#DDEBE8"];
+  exit [label="任一周均可分支\n继续 / 缩小 / 暂停 / 终止", fillcolor="#F1DCC7", color="#A75E21"];
+  package [label="最终证据包\n正向与负面证据 · 限制 · 差距账本\n五道门决定与生产责任", fillcolor="#DDEBE8"];
+
+  w1 -> w2 -> w3 -> w4 -> w5 -> w6 -> package;
+  {w1 w2 w3 w4 w5 w6} -> exit [style=dashed, color="#A75E21"];
+}

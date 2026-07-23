@@ -1,0 +1,22 @@
+digraph G {
+  graph [bgcolor="#FBF7EF", pad="0.34", nodesep="0.42", ranksep="0.50", splines=polyline, fontname="PingFang SC", rankdir=TB];
+  node [shape=box, style="rounded,filled", fillcolor="#FFFFFF", color="#0F5961", penwidth=1.8, fontname="PingFang SC", fontcolor="#18363A", fontsize=17, margin="0.18,0.13"];
+  edge [color="#0F5961", penwidth=1.8, arrowsize=0.8, fontname="PingFang SC", fontcolor="#18363A", fontsize=12];
+
+  idea [label="候选场景\n统一描述触发、用户、数据、动作、下一步和指标", fillcolor="#F3E4D2", color="#A75E21"];
+  pain [label="业务损耗\n真实且高频？"];
+  process [label="流程清晰度\n触发、责任、终点清楚？"];
+  data [label="数据可得性\nOwner、权限、版本可用？"];
+  fit [label="AI 适配度\n需要理解生成且允许不确定性？"];
+  measure [label="可测量性\n2—6 周能取得证据？"];
+  risk [label="风险可控性\n可发现、可逆、可人审？"];
+  pilot [label="首个受控试点\n验证关键假设，而非追逐理论最高 ROI", fillcolor="#0F5961", fontcolor="#FFFFFF", penwidth=2.3];
+  backlog [label="补证据／缩小范围／进入候选池", fillcolor="#F3E4D2", color="#A75E21"];
+
+  {rank=same; pain; process; data}
+  {rank=same; fit; measure; risk}
+  idea -> pain -> process -> data -> fit -> measure -> risk -> pilot;
+  pain -> backlog [label="证据不足", color="#A75E21"];
+  data -> backlog [label="不可合法稳定取得", color="#A75E21"];
+  risk -> backlog [label="不可控制", color="#A75E21"];
+}

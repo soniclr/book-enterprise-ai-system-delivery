@@ -1,0 +1,25 @@
+digraph G {
+  graph [rankdir=LR, bgcolor="#FBF7EF", pad=0.28, margin=0, nodesep=0.34, ranksep=0.62, fontname="PingFang SC", label="四级队列：先保护控制链路，再分配推理容量", labelloc=t, fontsize=20, fontcolor="#18363A", size="11.3,7.7", ratio=compress];
+  node [shape=box, style="rounded,filled", fillcolor="#F4EBDD", color="#0F5961", fontcolor="#18363A", penwidth=1.5, fontname="PingFang SC", fontsize=12, margin="0.17,0.11"];
+  edge [color="#0F5961", penwidth=1.4, arrowsize=0.75, fontname="PingFang SC", fontsize=10, fontcolor="#18363A"];
+
+  classify [label="请求分类器\n任务、截止时间、数据级别\n上下文、应用与部门配额", fillcolor="#DDEBE8"];
+  p0 [label="P0 控制链路\n权限判断 / 风险校验\n排队上限：2 秒", fillcolor="#F1DCC7", color="#A75E21"];
+  p1 [label="P1 在线交互\n客户摘要 / 在线问答\n排队上限：8 秒"];
+  p2 [label="P2 长生成\n方案草稿\n排队上限：2 分钟"];
+  p3 [label="P3 离线任务\n批量索引 / 离线评估\n排队上限：30 分钟"];
+  pool [shape=record, label="{受控推理资源池|交互预留容量|长任务并发上限|实验与生产隔离|取消与截止时间传播}", fillcolor="#DDEBE8"];
+  core [label="容量充足\n按优先级与配额执行", fillcolor="#DDEBE8"];
+  d0 [label="P0：拒绝高风险后续动作", fillcolor="#F6E3D2", color="#A75E21"];
+  d1 [label="P1：切批准备用或提示重试", fillcolor="#F6E3D2", color="#A75E21"];
+  d2 [label="P2：转异步并通知", fillcolor="#F6E3D2", color="#A75E21"];
+  d3 [label="P3：暂停与错峰", fillcolor="#F6E3D2", color="#A75E21"];
+
+  classify -> {p0 p1 p2 p3};
+  {p0 p1 p2 p3} -> pool;
+  pool -> core [label="有容量"];
+  p0 -> d0 [label="超时/不足", color="#A75E21"];
+  p1 -> d1 [label="超时/不足", color="#A75E21"];
+  p2 -> d2 [label="超时/不足", color="#A75E21"];
+  p3 -> d3 [label="超时/不足", color="#A75E21"];
+}

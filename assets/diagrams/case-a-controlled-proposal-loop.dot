@@ -1,0 +1,26 @@
+digraph G {
+  graph [bgcolor="#FBF7EF", pad="0.32", nodesep="0.28", ranksep="0.38", splines=polyline, fontname="PingFang SC", rankdir=TB, compound=true];
+  node [shape=box, style="rounded,filled", fillcolor="#FFFFFF", color="#0F5961", penwidth=1.7, fontname="PingFang SC", fontcolor="#18363A", fontsize=13, margin="0.16,0.10"];
+  edge [color="#0F5961", penwidth=1.7, arrowsize=0.74, fontname="PingFang SC", fontcolor="#18363A", fontsize=9];
+
+  crm [label="CRM 发起\n用户身份＋有效商机", fillcolor="#0F5961", fontcolor="#FFFFFF"];
+  check [label="必填、权限\n数据级别检查"];
+  retrieve [label="权限检索\n产品／案例／SOP"];
+  route [label="策略路由\n任务＋字段＋预算"];
+  draft [label="生成草稿\n引用＋待确认事实"];
+  sales [label="销售确认\n事实、引用、修改", fillcolor="#F3E4D2", color="#A75E21"];
+  approve [label="主管审批\n报价与对外承诺", fillcolor="#F3E4D2", color="#A75E21"];
+  write [label="幂等写回\n文档草稿＋CRM"];
+  observe [label="评估与运营\n质量、trace、成本、反馈"];
+  stop [label="阻断／补充／转人工", fillcolor="#F6DDD7", color="#A75E21"];
+
+  {rank=same; crm; check; retrieve;}
+  {rank=same; route; draft; sales;}
+  {rank=same; approve; write; observe;}
+  crm -> check -> retrieve -> route -> draft -> sales -> approve -> write -> observe;
+  check -> stop [label="缺字段／越权"];
+  retrieve -> stop [label="无引用／知识冲突"];
+  sales -> stop [label="拒绝或补充"];
+  approve -> stop [label="未批准"];
+  observe -> check [label="反馈进入规则、知识和评估", color="#A75E21", constraint=false];
+}

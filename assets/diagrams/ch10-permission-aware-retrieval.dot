@@ -1,0 +1,27 @@
+digraph G {
+  graph [bgcolor="#FBF7EF", pad="0.32", nodesep="0.32", ranksep="0.50", splines=polyline, fontname="PingFang SC", rankdir=TB];
+  node [shape=box, style="rounded,filled", fillcolor="#FFFFFF", color="#0F5961", penwidth=1.8, fontname="PingFang SC", fontcolor="#18363A", fontsize=14, margin="0.17,0.11"];
+  edge [color="#0F5961", penwidth=1.8, arrowsize=0.76, fontname="PingFang SC", fontcolor="#18363A", fontsize=9];
+
+  request [label="问题＋用户＋任务对象\n使用目的＋时间", fillcolor="#0F5961", fontcolor="#FFFFFF"];
+  auth1 [label="第一道授权\n确定知识域与访问标签", fillcolor="#F3E4D2", color="#A75E21"];
+  query [label="查询构建\n只使用已确认上下文"];
+  filter [label="过滤条件\n有效状态｜版本｜时间\n权限｜允许用途"];
+  lexical [label="关键词检索\n编号、条款、专名"];
+  vector [label="向量检索\n语义近似"];
+  merge [label="去重＋重排\n保留适用条件"];
+  auth2 [label="第二道授权\n返回模型前重新校验", fillcolor="#F3E4D2", color="#A75E21"];
+  assemble [label="证据组装\n片段＋来源位置＋版本\n授权上下文＋预算"];
+  answer [label="回答／拒答／转人工\n引用稳定证据对象", fillcolor="#0F5961", fontcolor="#FFFFFF"];
+
+  {rank=same; request; auth1; query}
+  {rank=same; filter; lexical; vector}
+  {rank=same; merge; auth2}
+  {rank=same; assemble; answer}
+  request -> auth1 -> query -> filter;
+  filter -> lexical;
+  filter -> vector;
+  lexical -> merge;
+  vector -> merge;
+  merge -> auth2 -> assemble -> answer;
+}

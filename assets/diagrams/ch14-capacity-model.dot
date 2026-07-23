@@ -1,0 +1,23 @@
+digraph G {
+  graph [rankdir=TB, bgcolor="#FBF7EF", pad=0.28, margin=0, nodesep=0.42, ranksep=0.62, fontname="PingFang SC", label="本地推理容量：从业务负载到可验证服务能力", labelloc=t, fontsize=20, fontcolor="#18363A"];
+  node [shape=box, style="rounded,filled", fillcolor="#F4EBDD", color="#0F5961", fontcolor="#18363A", penwidth=1.5, fontname="PingFang SC", fontsize=13, margin="0.18,0.12"];
+  edge [color="#0F5961", penwidth=1.5, arrowsize=0.8, fontname="PingFang SC", fontsize=11, fontcolor="#18363A"];
+
+  demand [label="业务需求\n峰值时间窗内任务数\n交互 / 长生成 / 批处理", fillcolor="#DDEBE8"];
+  profile [label="真实负载画像\n到达分布 · 输入/输出长度\n上下文分位数 · 取消率"];
+  estimate [label="初始容量估算\n并发需求 ≈ 到达量 × 服务时间\n× 峰值与安全系数", fillcolor="#F1DCC7", color="#A75E21"];
+  resources [label="资源组成\n权重与运行时（固定）\nKV Cache 与临时张量（随请求增长）"];
+  policy [label="产品化调度\n独立队列 · 优先级 · 配额\n上下文上限 · 异步与备用路径"];
+  proof [label="压测与运行证据\nP95 排队 / TTFT / 总延迟\n成功率 · 质量 · 资源峰值 · 恢复", fillcolor="#DDEBE8"];
+  decision [shape=diamond, label="满足任务 SLO\n并保留故障余量？", fillcolor="#F1DCC7", color="#A75E21"];
+  release [label="进入部门试点或生产候选\n按任务—模型组合承诺容量", fillcolor="#DDEBE8"];
+  adjust [label="调整任务范围、上下文、队列、\n模型量化或副本数量", fillcolor="#F6E3D2", color="#A75E21"];
+
+  {rank=same; demand; profile; estimate;}
+  {rank=same; resources; policy; proof;}
+  {rank=same; decision; release; adjust;}
+  demand -> profile -> estimate -> resources -> policy -> proof -> decision;
+  decision -> release [label="是"];
+  decision -> adjust [label="否", color="#A75E21"];
+  adjust -> profile [label="重新测量", color="#A75E21"];
+}

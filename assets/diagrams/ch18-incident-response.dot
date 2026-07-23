@@ -1,0 +1,21 @@
+digraph G {
+  graph [rankdir=TB, bgcolor="#FBF7EF", pad=0.28, margin=0, nodesep=0.36, ranksep=0.58, fontname="PingFang SC", label="AI 事故响应：先缩小影响，再恢复能力", labelloc=t, fontsize=20, fontcolor="#18363A"];
+  node [shape=box, style="rounded,filled", fillcolor="#F4EBDD", color="#0F5961", fontcolor="#18363A", penwidth=1.5, fontname="PingFang SC", fontsize=11, margin="0.16,0.10"];
+  edge [color="#0F5961", penwidth=1.45, arrowsize=0.75, fontname="PingFang SC", fontsize=9, fontcolor="#18363A"];
+
+  signal [label="发现信号\n用户上报 · 告警 · 合成探测\n质量、越权、费用或写回异常", fillcolor="#DDEBE8"];
+  classify [label="分类与定级\n场景、数据、动作、用户影响\n指定事件指挥"];
+  contain [label="局部止损\n暂停问题知识域 / 模型 / 工具\n保留低风险只读或人工路径", fillcolor="#F1DCC7", color="#A75E21"];
+  evidence [label="保护证据\n冻结版本与清理任务\n保存 trace、策略和事件时间线"];
+  scope [label="识别影响范围\n用户、数据、版本、业务对象\n已写入与已外发结果"];
+  compensate [label="撤销与业务补偿\n对账、重做、通知或人工确认"];
+  repair [label="修复与回归\n根因修复 · 事故样本进门禁\n权限、监控、手册同步更新"];
+  restore [label="灰度恢复\n内部组 → 小范围 → 扩大\n按停止线观察", fillcolor="#DDEBE8"];
+  review [label="复盘闭环\nOwner、控制、SLO 与运行节奏改变"];
+
+  {rank=same; signal; classify; contain;}
+  {rank=same; evidence; scope; compensate;}
+  {rank=same; repair; restore; review;}
+  signal -> classify -> contain -> evidence -> scope -> compensate -> repair -> restore -> review;
+  restore -> contain [label="恢复验证失败", color="#A75E21"];
+}

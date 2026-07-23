@@ -1,0 +1,14 @@
+digraph G {
+  graph [bgcolor="#FBF7EF", pad="0.34", nodesep="0.28", ranksep="0.32", splines=ortho, fontname="PingFang SC", rankdir=TB];
+  node [shape=box, style="rounded,filled", fillcolor="#FFFFFF", color="#0F5961", penwidth=1.9, fontname="PingFang SC", fontcolor="#18363A", fontsize=17, width=8.8, margin="0.22,0.14"];
+  edge [color="#0F5961", penwidth=1.8, arrowsize=0.8, fontname="PingFang SC", fontcolor="#18363A", fontsize=13];
+
+  core [label="第 1 层｜本次必须闭环的核心任务\n有效商机 → 获准资料 → 方案草稿 → 销售确认 → 主管评审", fillcolor="#0F5961", fontcolor="#FFFFFF"];
+  dep [label="第 2 层｜当前接触但不拥有的依赖\nCRM 身份｜产品资料发布｜案例授权｜文档空间｜审批服务"];
+  out [label="第 3 层｜明确不在本次执行范围\n正式报价｜合同审查｜自动外发｜商机预测｜交付排期", fillcolor="#F3E4D2", color="#A75E21"];
+  future [label="第 4 层｜长期愿景与候选平台能力\n跨部门知识服务｜统一模型网关｜工具目录｜企业评估平台"];
+
+  core -> dep [label="管理接口和协同"];
+  dep -> out [label="保护当前风险包络"];
+  out -> future [label="满足重新进入条件后再评审"];
+}

@@ -1,0 +1,35 @@
+digraph G {
+  graph [bgcolor="#FBF7EF", pad="0.32", nodesep="0.32", ranksep="0.38", splines=polyline, fontname="PingFang SC", rankdir=TB];
+  node [shape=box, style="rounded,filled", fillcolor="#FFFFFF", color="#0F5961", penwidth=1.8, fontname="PingFang SC", fontcolor="#18363A", fontsize=14, margin="0.17,0.11"];
+  edge [color="#0F5961", penwidth=1.8, arrowsize=0.76, fontname="PingFang SC", fontcolor="#18363A", fontsize=10];
+
+  task [label="拆到任务节点与字段\n能力、数据、延迟、影响、规模", fillcolor="#0F5961", fontcolor="#FFFFFF"];
+  data [label="数据路径是否允许？", shape=diamond, style="filled", fillcolor="#F3E4D2", color="#A75E21"];
+  local [label="保留在企业控制域\n本地处理、缩小任务或人工"];
+  quality [label="候选是否达到业务质量门槛？", shape=diamond, style="filled", fillcolor="#F3E4D2", color="#A75E21"];
+  exclude [label="淘汰候选\n价格不能补偿数据或质量不合格", fillcolor="#F6DDD7", color="#A75E21"];
+  operate [label="组织能否承担运行责任？", shape=diamond, style="filled", fillcolor="#F3E4D2", color="#A75E21"];
+  compare [label="在合格候选中比较\n性能、可用性、TCO、利用率与退出"];
+  fixed [label="路径是否稳定且单一？", shape=diamond, style="filled", fillcolor="#F3E4D2", color="#A75E21"];
+  single [label="云端／专属／本地单一路径\n保留逻辑接口与重评条件"];
+  hybrid [label="任务级混合路由\n策略网关＋数据最小化\n跨环境 trace＋降级规则", fillcolor="#0F5961", fontcolor="#FFFFFF"];
+  adr [label="部署 ADR\n当前证据、代价、反转点与复审日期", fillcolor="#F3E4D2", color="#A75E21"];
+
+  {rank=same; task; data; local}
+  {rank=same; quality; exclude; operate}
+  {rank=same; compare; fixed}
+  {rank=same; single; hybrid}
+  task -> data;
+  data -> local [label="不允许外发"];
+  data -> quality [label="存在获准候选"];
+  local -> quality [label="评估本地候选"];
+  quality -> exclude [label="未达到"];
+  quality -> operate [label="达到"];
+  operate -> exclude [label="无法承担"];
+  operate -> compare [label="可以承担"];
+  compare -> fixed;
+  fixed -> single [label="是"];
+  fixed -> hybrid [label="否：任务差异明显"];
+  single -> adr;
+  hybrid -> adr;
+}

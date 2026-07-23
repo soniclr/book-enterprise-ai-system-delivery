@@ -1,0 +1,27 @@
+digraph G {
+  graph [bgcolor="#FBF7EF", pad="0.32", nodesep="0.28", ranksep="0.40", splines=polyline, fontname="PingFang SC", rankdir=TB];
+  node [shape=box, style="rounded,filled", fillcolor="#FFFFFF", color="#0F5961", penwidth=1.7, fontname="PingFang SC", fontcolor="#18363A", fontsize=12, margin="0.16,0.10"];
+  edge [color="#0F5961", penwidth=1.7, arrowsize=0.72, fontname="PingFang SC", fontcolor="#18363A", fontsize=8];
+
+  doc [label="客户合同／附件\n外部不可信内容", fillcolor="#F6DDD7", color="#A75E21"];
+  ingest [label="来源与内容标记\n不把文档指令当政策"];
+  identity [label="用户委托身份\n对象级权限过滤"];
+  policy [label="生效政策与模板\nOwner＋版本＋适用条件"];
+  model [label="模型归类与解释\n输出未验证主张"];
+  verify [label="事实校验与确定规则\n内部批准 ID／金额阈值"];
+  approve [label="专业审批服务\n人作正式决定", fillcolor="#F3E4D2", color="#A75E21"];
+  tools [label="工具白名单\n无邮件、无正式合同修改权"];
+  audit [label="审计、近失样本与回归\n暂停／降级／恢复"];
+  blocked [label="阻断：越权、过期政策、\n伪造批准或缺少必要审批", fillcolor="#0F5961", fontcolor="#FFFFFF"];
+
+  {rank=same; doc; ingest; identity;}
+  {rank=same; policy; model; verify;}
+  {rank=same; approve; tools; audit;}
+  doc -> ingest -> identity -> policy -> model -> verify -> approve -> tools -> audit;
+  identity -> blocked [label="越权"];
+  policy -> blocked [label="缺失／过期／冲突"];
+  verify -> blocked [label="无证据"];
+  approve -> blocked [label="未齐全"];
+  tools -> blocked [label="越界动作"];
+  audit -> policy [label="改规则／样本／权限", color="#A75E21", constraint=false];
+}

@@ -1,0 +1,29 @@
+digraph G {
+  graph [bgcolor="#FBF7EF", pad="0.34", nodesep="0.32", ranksep="0.44", splines=polyline, fontname="PingFang SC", rankdir=TB];
+  node [shape=box, style="rounded,filled", fillcolor="#FFFFFF", color="#0F5961", penwidth=1.8, fontname="PingFang SC", fontcolor="#18363A", fontsize=12, margin="0.16,0.10"];
+  edge [color="#0F5961", penwidth=1.7, arrowsize=0.74, fontname="PingFang SC", fontcolor="#18363A", fontsize=9];
+
+  start [label="销售从获准商机发起\n准备报价审批", fillcolor="#0F5961", fontcolor="#FFFFFF"];
+  facts [label="读取获准事实\n客户、产品、地区"];
+  rules [label="确定性定价规则\n标准价格、区间、阈值"];
+  diff [label="合同结构化差异\n模型归类解释，不作批准"];
+  pack [label="版本化审批包\n事实＋偏离＋引用＋待决问题"];
+  sales [label="销售确认事实", fillcolor="#F3E4D2", color="#A75E21"];
+  manager [label="销售主管\n商业承诺"];
+  finance [label="财务\n超阈值折扣"];
+  legal [label="法务\n非标准条款"];
+  join [label="全部必要批准\n绑定同一报价版本", shape=diamond, style="filled", fillcolor="#F3E4D2", color="#A75E21"];
+  candidate [label="可发送候选\n获权人员最终检查并外发", fillcolor="#0F5961", fontcolor="#FFFFFF"];
+  revise [label="修改金额或条款\n旧批准失效并重新评审", fillcolor="#F6DDD7", color="#A75E21"];
+
+  {rank=same; start; facts; rules;}
+  {rank=same; diff; pack; sales;}
+  {rank=same; manager; finance; legal;}
+  {rank=same; join; candidate; revise;}
+  start -> facts -> rules -> diff -> pack -> sales;
+  sales -> manager; sales -> finance; sales -> legal;
+  manager -> join; finance -> join; legal -> join;
+  join -> candidate [label="齐全"];
+  join -> revise [label="缺失／版本变化"];
+  revise -> pack [label="新版本", color="#A75E21"];
+}

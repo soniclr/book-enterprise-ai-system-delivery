@@ -1,0 +1,28 @@
+digraph G {
+  graph [bgcolor="#FBF7EF", pad="0.34", nodesep="0.42", ranksep="0.44", splines=polyline, fontname="PingFang SC", rankdir=TB];
+  node [shape=box, style="rounded,filled", fillcolor="#FFFFFF", color="#0F5961", penwidth=1.8, fontname="PingFang SC", fontcolor="#18363A", fontsize=15, margin="0.18,0.12"];
+  edge [color="#0F5961", penwidth=1.8, arrowsize=0.78, fontname="PingFang SC", fontcolor="#18363A", fontsize=10];
+
+  source [label="来源／语料层\n权威资料是否存在、有效、获准并正确解析？"];
+  recall [label="召回层\n正确片段是否进入候选？越权内容是否被阻断？"];
+  assembly [label="组装层\n重排、去重与上下文是否保留关键条件？"];
+  generation [label="生成层\n答案是否忠于证据？引用是否支持结论？"];
+  answer [label="业务回答\n采用｜拒答｜转人工", fillcolor="#0F5961", fontcolor="#FFFFFF"];
+  symptom [label="发现错误回答\n从结果逆向定位，不先改 Prompt", fillcolor="#F3E4D2", color="#A75E21"];
+  fix_source [label="修复来源、解析、版本或准入"];
+  fix_recall [label="修复元数据、切分、查询或过滤"];
+  fix_assembly [label="修复重排、预算与条件保留"];
+  fix_generation [label="修复生成约束、引用与拒答策略"];
+
+  source -> recall -> assembly -> generation -> answer;
+  answer -> symptom [color="#A75E21"];
+  symptom -> generation [label="先检查引用与忠实度", color="#A75E21"];
+  generation -> assembly [label="证据已错？继续逆查", color="#A75E21"];
+  assembly -> recall [color="#A75E21"];
+  recall -> source [color="#A75E21"];
+  {rank=same; fix_source; fix_recall; fix_assembly; fix_generation}
+  source -> fix_source [style=dashed];
+  recall -> fix_recall [style=dashed];
+  assembly -> fix_assembly [style=dashed];
+  generation -> fix_generation [style=dashed];
+}

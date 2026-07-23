@@ -1,0 +1,16 @@
+digraph G {
+  graph [bgcolor="#FBF7EF", pad="0.34", nodesep="0.34", ranksep="0.34", splines=polyline, fontname="PingFang SC", rankdir=TB];
+  node [shape=box, style="rounded,filled", fillcolor="#FFFFFF", color="#0F5961", penwidth=1.6, fontname="PingFang SC", fontcolor="#18363A", fontsize=11, margin="0.15,0.09"];
+  edge [color="#0F5961", penwidth=1.8, arrowsize=0.74];
+
+  value [label="价值门\n01 业务结果卡｜02 边界与假设｜03 场景优先级", fillcolor="#0F5961", fontcolor="#FFFFFF"];
+  process [label="流程门\n04 As-Is／To-Be｜05 人机分工"];
+  solution [label="方案门\n06 四平面画布｜07 能力选择"];
+  governance [label="平台与治理门\n08 部署与路由｜09 安全与事故路径"];
+  production [label="生产门\n10 评估发布｜11 POC 阶段门｜12 90 天运营"];
+  operation [label="持续经营\n13 场景经营卡｜14 POC—生产差距｜15 事故恢复", fillcolor="#F3E4D2", color="#A75E21"];
+  decision [label="继续／缩小／暂停\n把证据写回下一轮范围", fillcolor="#0F5961", fontcolor="#FFFFFF"];
+
+  value -> process -> solution -> governance -> production -> operation -> decision;
+  decision -> value [color="#A75E21", constraint=false];
+}

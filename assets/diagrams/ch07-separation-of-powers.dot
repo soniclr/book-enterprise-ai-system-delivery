@@ -1,0 +1,22 @@
+digraph G {
+  graph [bgcolor="#FBF7EF", pad="0.34", nodesep="0.44", ranksep="0.50", splines=polyline, fontname="PingFang SC", rankdir=TB];
+  node [shape=box, style="rounded,filled", fillcolor="#FFFFFF", color="#0F5961", penwidth=1.9, fontname="PingFang SC", fontcolor="#18363A", fontsize=17, margin="0.18,0.13"];
+  edge [color="#0F5961", penwidth=1.9, arrowsize=0.82, fontname="PingFang SC", fontcolor="#18363A", fontsize=12];
+
+  suggest [label="建议权\nAI 生成候选、依据与风险提示\n不能直接访问写接口"];
+  decide [label="决策权\n销售确认事实\n主管批准报价与承诺", fillcolor="#0F5961", fontcolor="#FFFFFF"];
+  auth [label="范围授权\n绑定对象、版本、字段、次数和有效期", fillcolor="#F3E4D2", color="#A75E21"];
+  execute [label="执行权\n工作流准备请求\n集成服务按白名单重新校验并写入"];
+  supervise [label="监督权\n抽检｜告警｜暂停模型/工具/知识域/用户组\n不能伪造业务批准", fillcolor="#F3E4D2", color="#A75E21"];
+  record [label="审计与反馈\n来源、差异、批准、执行结果、撤销条件"];
+
+  {rank=same; suggest; decide; auth}
+  {rank=same; execute; record}
+  suggest -> decide [label="提供证据，不替代授权"];
+  decide -> auth [label="批准具体动作"];
+  auth -> execute [label="一次性最小权限"];
+  execute -> record;
+  supervise -> suggest [label="降级/暂停", color="#A75E21"];
+  supervise -> execute [label="实时阻断", color="#A75E21"];
+  record -> supervise [label="运行证据", color="#A75E21"];
+}

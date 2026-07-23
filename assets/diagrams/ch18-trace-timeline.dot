@@ -1,0 +1,24 @@
+digraph G {
+  graph [rankdir=TB, bgcolor="#FBF7EF", pad=0.28, margin=0, nodesep=0.28, ranksep=0.58, fontname="PingFang SC", label="一条可排障的业务任务 trace", labelloc=t, fontsize=20, fontcolor="#18363A"];
+  node [shape=box, style="rounded,filled", fillcolor="#F4EBDD", color="#0F5961", fontcolor="#18363A", penwidth=1.4, fontname="PingFang SC", fontsize=10, margin="0.15,0.09"];
+  edge [color="#0F5961", penwidth=1.35, arrowsize=0.7, fontname="PingFang SC", fontsize=8.5, fontcolor="#18363A"];
+
+  task [label="业务任务创建\nbusiness_task_id\n用户、部门、场景", fillcolor="#DDEBE8"];
+  input [label="输入与分级\n允许路径、内容采集策略"];
+  retrieval [label="检索 span\n查询、文档 ID、版本\n权限过滤"];
+  model [label="模型 span\n逻辑模型、渠道、Prompt\n知识与策略版本"];
+  workflow [label="工作流 span\n节点、状态、尝试\n等待与恢复"];
+  tool [label="工具 span\n参数摘要、幂等键\n后置条件"];
+  human [label="人工 span\n等待、修改类别\n批准 ID"];
+  write [label="写回与业务终点\n对象 ID、结果、采用反馈", fillcolor="#DDEBE8"];
+  chain [label="共同关联字段\ntrace_id · parent_span_id · event_time\nrelease_id · outcome · content_capture", fillcolor="#F1DCC7", color="#A75E21"];
+  ops [label="排障与责任证据\n技术耗时 + 排队 + 人工等待\n定位版本、影响对象与恢复动作", fillcolor="#DDEBE8"];
+
+  {rank=same; task; input; retrieval;}
+  {rank=same; model; workflow; tool;}
+  {rank=same; human; write;}
+  {rank=same; chain; ops;}
+  task -> input -> retrieval -> model -> workflow -> tool -> human -> write;
+  {task input retrieval model workflow tool human write} -> chain [style=dashed, color="#A75E21"];
+  chain -> ops;
+}

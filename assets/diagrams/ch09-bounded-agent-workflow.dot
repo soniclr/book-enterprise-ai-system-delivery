@@ -1,0 +1,26 @@
+digraph G {
+  graph [bgcolor="#FBF7EF", pad="0.34", nodesep="0.38", ranksep="0.50", splines=polyline, fontname="PingFang SC", rankdir=TB];
+  node [shape=box, style="rounded,filled", fillcolor="#FFFFFF", color="#0F5961", penwidth=1.8, fontname="PingFang SC", fontcolor="#18363A", fontsize=15, margin="0.17,0.12"];
+  edge [color="#0F5961", penwidth=1.8, arrowsize=0.78, fontname="PingFang SC", fontcolor="#18363A", fontsize=10];
+
+  input [label="工作流主链\n检查客户字段", fillcolor="#0F5961", fontcolor="#FFFFFF"];
+  retrieve [label="权限感知检索\n产品＋案例"];
+  research [label="是否需要开放研究？", shape=diamond, style="filled", fillcolor="#F3E4D2", color="#A75E21"];
+  contract [label="任务合同\n公开数据｜只读工具\n8 步｜预算｜停止条件", fillcolor="#F3E4D2", color="#A75E21"];
+  agent [label="有限 Agent 循环\n搜索 → 取证 → 判断继续"];
+  evidence [label="研究笔记＋来源\n不能写 CRM／决定报价"];
+  draft [label="工作流生成方案草稿\n结构与引用校验"];
+  approve [label="销售确认＋主管审批", fillcolor="#0F5961", fontcolor="#FFFFFF"];
+  write [label="确定性写回\n身份＋幂等＋审计"];
+  stop [label="停止／转人工\n无新证据、冲突或超预算", fillcolor="#F6DDD7", color="#A75E21"];
+
+  {rank=same; input; retrieve; research}
+  {rank=same; contract; agent; evidence}
+  {rank=same; draft; approve; write}
+  input -> retrieve -> research;
+  research -> contract [label="是"];
+  research -> draft [label="否"];
+  contract -> agent -> evidence -> draft;
+  agent -> stop [label="触发终止", color="#A75E21"];
+  draft -> approve -> write;
+}

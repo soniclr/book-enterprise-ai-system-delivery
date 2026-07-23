@@ -1,0 +1,20 @@
+digraph G {
+  graph [bgcolor="#FBF7EF", pad="0.32", nodesep="0.34", ranksep="0.52", splines=polyline, fontname="PingFang SC", rankdir=TB];
+  node [shape=box, style="rounded,filled", fillcolor="#FFFFFF", color="#0F5961", penwidth=1.8, fontname="PingFang SC", fontcolor="#18363A", fontsize=15, margin="0.17,0.12"];
+  edge [color="#0F5961", penwidth=1.8, arrowsize=0.78, fontname="PingFang SC", fontcolor="#18363A", fontsize=10];
+
+  trigger [label="业务触发\n有效商机＋销售责任", fillcolor="#0F5961", fontcolor="#FFFFFF"];
+  prepare [label="解决方案编排\n读取获准字段\n建立任务与知识域"];
+  gate [label="控制门禁\n对象权限＋数据分级\n决定模型通道", fillcolor="#F3E4D2", color="#A75E21"];
+  serve [label="平台服务\n检索＋推理\n返回引用、版本和错误"];
+  validate [label="解决方案校验\n结构、事实支持度\n禁用承诺"];
+  approve [label="业务确认\n销售核对事实\n主管批准高风险内容", fillcolor="#0F5961", fontcolor="#FFFFFF"];
+  write [label="受控写回\n最小工具＋幂等\n记录审批与后置条件"];
+  learn [label="结果与反馈\n业务指标＋质量评估\n成本归属", fillcolor="#F3E4D2", color="#A75E21"];
+
+  {rank=same; trigger; prepare; gate}
+  {rank=same; serve; validate; approve}
+  {rank=same; write; learn}
+  trigger -> prepare -> gate -> serve -> validate -> approve -> write -> learn;
+  learn -> trigger [label="下一轮流程与路由改进", color="#A75E21", constraint=false];
+}

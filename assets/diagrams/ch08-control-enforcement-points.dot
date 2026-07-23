@@ -1,0 +1,17 @@
+digraph G {
+  graph [bgcolor="#FBF7EF", pad="0.34", nodesep="0.40", ranksep="0.48", splines=polyline, fontname="PingFang SC", rankdir=TB];
+  node [shape=box, style="rounded,filled", fillcolor="#FFFFFF", color="#0F5961", penwidth=1.8, fontname="PingFang SC", fontcolor="#18363A", fontsize=15, margin="0.18,0.12"];
+  edge [color="#0F5961", penwidth=1.8, arrowsize=0.78, fontname="PingFang SC", fontcolor="#18363A", fontsize=10];
+
+  request [label="请求进入\n用户＋对象＋目的", fillcolor="#0F5961", fontcolor="#FFFFFF"];
+  auth [label="① 读取数据前｜对象权限\n阻断：无权字段和文档\n证据：用户、对象、授权结果", fillcolor="#F3E4D2", color="#A75E21"];
+  policy [label="② 选择模型前｜数据路由\n阻断：未批准渠道\n证据：数据级别、策略版本", fillcolor="#F3E4D2", color="#A75E21"];
+  schema [label="③ 接收结果时｜结构与质量\n阻断：不可验证结果\n证据：模式校验、失败样本", fillcolor="#F3E4D2", color="#A75E21"];
+  approval [label="④ 写回执行前｜高风险批准\n阻断：未批准变更\n证据：审批、对象版本、范围", fillcolor="#F3E4D2", color="#A75E21"];
+  regression [label="⑤ 发布变更前｜回归门禁\n阻断：未通过版本\n证据：评估、门禁、批准人", fillcolor="#F3E4D2", color="#A75E21"];
+  evidence [label="控制证据进入统一 trace\n可以阻断、局部暂停、恢复与审计", fillcolor="#0F5961", fontcolor="#FFFFFF"];
+
+  {rank=same; request; auth; policy}
+  {rank=same; schema; approval; regression}
+  request -> auth -> policy -> schema -> approval -> regression -> evidence;
+}

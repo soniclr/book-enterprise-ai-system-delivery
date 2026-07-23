@@ -1,0 +1,30 @@
+digraph G {
+  graph [bgcolor="#FBF7EF", pad="0.32", nodesep="0.38", ranksep="0.46", splines=polyline, fontname="PingFang SC", rankdir=TB];
+  node [shape=box, style="rounded,filled", fillcolor="#FFFFFF", color="#0F5961", penwidth=1.8, fontname="PingFang SC", fontcolor="#18363A", fontsize=16, margin="0.18,0.12"];
+  edge [color="#0F5961", penwidth=1.8, arrowsize=0.8, fontname="PingFang SC", fontcolor="#18363A", fontsize=11];
+
+  action [label="具体动作＋数据＋条件\n不能给整个产品统一定级", fillcolor="#0F5961", fontcolor="#FFFFFF"];
+  forbid [label="是否未授权或明确禁止？", shape=diamond, style="filled", fillcolor="#F3E4D2", color="#A75E21"];
+  high [label="影响高、难逆、难发现\n或授权责任未清？", shape=diamond, style="filled", fillcolor="#F3E4D2", color="#A75E21"];
+  verify [label="结果是否可验证、可恢复\n且执行条件可确定？", shape=diamond, style="filled", fillcolor="#F3E4D2", color="#A75E21"];
+  monitor [label="监控、暂停、回滚和 Owner\n是否真实可用？", shape=diamond, style="filled", fillcolor="#F3E4D2", color="#A75E21"];
+  a0 [label="A0｜禁止\n工具与权限层不可达", fillcolor="#F6DDD7", color="#A75E21"];
+  a1 [label="A1｜建议\n人独立决策"];
+  a2 [label="A2｜草拟\n人确认内容"];
+  a3 [label="A3｜确认后执行\n系统按范围授权执行"];
+  a4 [label="A4｜自动执行\n事前规则＋实时阻断＋事后抽检", fillcolor="#DCECE8"];
+
+  {rank=same; action; forbid; high}
+  {rank=same; verify; monitor}
+  {rank=same; a0; a1; a2; a3; a4}
+  action -> forbid;
+  forbid -> a0 [label="是"];
+  forbid -> high [label="否"];
+  high -> a1 [label="责任或标准仍有争议"];
+  high -> a2 [label="可由合适角色逐条确认"];
+  high -> verify [label="影响有限"];
+  verify -> a2 [label="尚不可稳定验证"];
+  verify -> monitor [label="可验证、可恢复"];
+  monitor -> a3 [label="需具体授权"];
+  monitor -> a4 [label="低风险且监督成熟"];
+}

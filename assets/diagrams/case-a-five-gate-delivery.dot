@@ -1,0 +1,19 @@
+digraph G {
+  graph [bgcolor="#FBF7EF", pad="0.32", nodesep="0.30", ranksep="0.42", splines=polyline, fontname="PingFang SC", rankdir=TB];
+  node [shape=box, style="rounded,filled", fillcolor="#FFFFFF", color="#0F5961", penwidth=1.8, fontname="PingFang SC", fontcolor="#18363A", fontsize=13, margin="0.17,0.11"];
+  edge [color="#0F5961", penwidth=1.8, arrowsize=0.76, fontname="PingFang SC", fontcolor="#18363A", fontsize=10];
+
+  need [label="原始需求\n全私有化销售 Agent", fillcolor="#F6DDD7", color="#A75E21"];
+  g1 [label="第一道门｜价值\n结果、边界、基线、优先级"];
+  g2 [label="第二道门｜流程\nAs-Is、To-Be、自主性"];
+  g3 [label="第三道门｜方案\n四平面、能力、知识、集成"];
+  g4 [label="第四道门｜平台与治理\n部署、网关、身份、安全"];
+  g5 [label="第五道门｜生产\n评估、运行、成本、责任"];
+  decision [label="证据决定\n扩大／缩小／暂停", fillcolor="#0F5961", fontcolor="#FFFFFF"];
+
+  {rank=same; g1; g2;}
+  {rank=same; g3; g4;}
+  {rank=same; g5; decision;}
+  need -> g1 -> g2 -> g3 -> g4 -> g5 -> decision;
+  decision -> g1 [label="新证据或边界变化", color="#A75E21", constraint=false];
+}

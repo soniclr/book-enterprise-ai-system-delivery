@@ -1,0 +1,40 @@
+digraph G {
+  graph [bgcolor="#FBF7EF", pad="0.30", nodesep="0.34", ranksep="0.42", splines=polyline, fontname="PingFang SC", rankdir=TB];
+  node [shape=box, style="rounded,filled", fillcolor="#FFFFFF", color="#0F5961", penwidth=1.6, fontname="PingFang SC", fontcolor="#18363A", fontsize=13, margin="0.15,0.09"];
+  edge [color="#0F5961", penwidth=1.6, arrowsize=0.7, fontname="PingFang SC", fontcolor="#18363A", fontsize=9];
+
+  created [label="已创建\nCREATED"];
+  context [label="待补上下文\nWAITING_FOR_CONTEXT"];
+  ready [label="可检索\nREADY_FOR_RETRIEVAL"];
+  drafting [label="草拟中\nDRAFTING"];
+  sales [label="待销售确认\nWAITING_FOR_SALES_CONFIRMATION"];
+  approval [label="待主管审批\nWAITING_FOR_APPROVAL"];
+  write_ready [label="可写回\nREADY_TO_WRITE_BACK"];
+  writing [label="写回中\nWRITING_BACK"];
+  done [label="已完成\nCOMPLETED", fillcolor="#0F5961", fontcolor="#FFFFFF"];
+  recovery [label="需要恢复\nRECOVERY_REQUIRED", fillcolor="#F3E4D2", color="#A75E21"];
+  blocked [label="已阻断\nBLOCKED", fillcolor="#F6DDD7", color="#A75E21"];
+  cancelled [label="已取消\nCANCELLED", fillcolor="#F6DDD7", color="#A75E21"];
+
+  {rank=same; created; context; ready}
+  {rank=same; drafting; sales; approval}
+  {rank=same; write_ready; writing; done}
+  {rank=same; recovery; blocked; cancelled}
+  created -> context [label="字段缺失"];
+  created -> ready [label="上下文完整"];
+  context -> ready [label="补齐并复核"];
+  ready -> drafting -> sales;
+  sales -> drafting [label="要求修改", color="#A75E21"];
+  sales -> approval [label="含高风险差异"];
+  sales -> write_ready [label="无需主管审批"];
+  approval -> write_ready [label="批准"];
+  approval -> drafting [label="拒绝/补充", color="#A75E21"];
+  write_ready -> writing -> done;
+  drafting -> recovery [label="超时/格式失败", color="#A75E21"];
+  writing -> recovery [label="结果未知", color="#A75E21"];
+  recovery -> drafting [label="从失败点继续", color="#A75E21"];
+  recovery -> writing [label="查后置条件后恢复", color="#A75E21"];
+  created -> blocked [label="权限/安全失败", color="#A75E21"];
+  sales -> cancelled [label="取消", color="#A75E21"];
+  approval -> cancelled [label="取消", color="#A75E21"];
+}

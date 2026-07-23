@@ -1,0 +1,30 @@
+digraph G {
+  graph [bgcolor="#FBF7EF", pad="0.34", nodesep="0.42", ranksep="0.50", splines=polyline, fontname="PingFang SC", rankdir=TB];
+  node [shape=box, style="rounded,filled", fillcolor="#FFFFFF", color="#0F5961", penwidth=1.8, fontname="PingFang SC", fontcolor="#18363A", fontsize=17, margin="0.20,0.13"];
+  edge [color="#0F5961", penwidth=1.8, arrowsize=0.8, fontname="PingFang SC", fontcolor="#18363A", fontsize=13];
+
+  trigger [label="明确触发\n需求已确认＋字段齐全＋销售主动发起", fillcolor="#F3E4D2", color="#A75E21"];
+  baseline [label="项目边界基线\n版本化记录纳入、不做、依赖与重新进入条件", fillcolor="#0F5961", fontcolor="#FFFFFF", penwidth=2.3];
+  users [label="用户边界\n角色｜组织｜身份组"];
+  tasks [label="任务边界\n输入｜输出｜完成状态"];
+  data [label="数据边界\n数据域｜字段｜级别｜版本"];
+  action [label="动作边界\n只读｜草稿｜审批后写入｜禁止"];
+  run [label="运行边界\n开发｜POC｜试点｜生产"];
+  owner [label="责任边界\n批准｜维护｜观察｜响应｜停止"];
+  end [label="明确终点\n带引用、经确认的主管评审草稿", fillcolor="#F3E4D2", color="#A75E21", penwidth=2.1];
+  guard [label="风险包络\n任一维度变化，都要重新评审价值与控制", fillcolor="#F3E4D2", color="#A75E21", penwidth=2.0];
+
+  {rank=same; users; tasks; data}
+  {rank=same; action; run; owner}
+  trigger -> baseline;
+  baseline -> users;
+  baseline -> tasks;
+  baseline -> data;
+  users -> action;
+  tasks -> run;
+  data -> owner;
+  action -> end;
+  run -> end;
+  owner -> end;
+  guard -> baseline [dir=both, color="#A75E21", label="边界变更就重新评审", style=dashed];
+}

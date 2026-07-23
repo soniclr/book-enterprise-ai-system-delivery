@@ -1,0 +1,14 @@
+digraph G {
+  graph [bgcolor="#FBF7EF", pad="0.30", nodesep="0.28", ranksep="0.36", splines=ortho, fontname="PingFang SC", rankdir=LR, compound=true];
+  node [shape=box, style="rounded,filled", fillcolor="#FFFFFF", color="#0F5961", penwidth=1.7, fontname="PingFang SC", fontcolor="#18363A", fontsize=12, margin="0.15,0.10"];
+  edge [color="#0F5961", penwidth=1.7, arrowsize=0.72, fontname="PingFang SC", fontcolor="#18363A", fontsize=9];
+
+  subgraph cluster_meeting { label="会议平台"; color="#0F5961"; style="rounded,dashed"; fontname="PingFang SC"; done [label="meeting.completed\n会议 ID＋身份＋录音位置"]; }
+  subgraph cluster_ai { label="受控 AI 工作流"; color="#0F5961"; style="rounded,dashed"; fontname="PingFang SC"; trans [label="按数据级别转写\n说话人＋时间戳"]; extract [label="提取决议与任务草稿\n保留原句与不确定项"]; validate [label="校验项目、身份、日期\n生成幂等 task_key"]; }
+  subgraph cluster_people { label="责任人"; color="#A75E21"; style="rounded,dashed"; fontname="PingFang SC"; host [label="主持人确认\n会议结论"]; owner [label="任务负责人\n接受／修改／拒绝"]; }
+  subgraph cluster_project { label="项目系统"; color="#0F5961"; style="rounded,dashed"; fontname="PingFang SC"; create [label="幂等创建任务\n写回任务 ID"]; monitor [label="提醒、升级与关闭\n只消费已确认任务"]; }
+  review [label="误提、漏提、延期原因\n进入评估与流程复盘", fillcolor="#F3E4D2", color="#A75E21"];
+
+  done -> trans -> extract -> host -> owner -> validate -> create -> monitor -> review;
+  review -> extract [label="改进 schema／样本／规则", color="#A75E21", constraint=false];
+}

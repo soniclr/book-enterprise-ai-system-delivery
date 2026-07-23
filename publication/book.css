@@ -1,0 +1,253 @@
+@page {
+  size: A4;
+  margin: 20mm 18mm 22mm;
+  @bottom-center {
+    content: counter(page);
+    color: #6d747b;
+    font-size: 8.5pt;
+  }
+}
+
+@page:first {
+  @bottom-center { content: none; }
+}
+
+:root {
+  --ink: #1c252c;
+  --muted: #59646e;
+  --line: #d9dfe3;
+  --brand: #0f5961;
+  --brand-dark: #0a3338;
+  --brand-soft: #edf5f5;
+  --accent: #a75e21;
+}
+
+html { background: #fff; color: var(--ink); }
+
+body {
+  font-family: "Noto Sans SC", "Source Han Sans CN", "PingFang SC", sans-serif;
+  font-size: 10.5pt;
+  line-height: 1.64;
+  max-width: 178mm;
+  margin: 0 auto;
+  text-align: justify;
+  text-justify: inter-ideograph;
+}
+
+#title-block-header {
+  min-height: 235mm;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 52mm 20mm 25mm;
+  break-after: page;
+  color: #fff;
+  background: linear-gradient(150deg, var(--brand-dark), var(--brand) 62%, #1d445a);
+  border-radius: 2mm;
+  text-align: left;
+  break-inside: avoid;
+}
+
+#title-block-header h1.title {
+  color: #fff;
+  border: 0;
+  font-size: 30pt;
+  line-height: 1.24;
+  margin: 0 0 12mm;
+  padding: 0;
+  min-height: 0;
+  break-before: avoid;
+}
+
+#title-block-header .subtitle {
+  color: #dff2f2;
+  font-size: 16pt;
+  line-height: 1.45;
+  margin: 0 0 35mm;
+}
+
+#title-block-header .author,
+#title-block-header .date {
+  color: #e7f1f2;
+  font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-size: 11pt;
+}
+
+nav#TOC {
+  break-after: page;
+  padding: 8mm 4mm 0;
+}
+
+nav#TOC > h2 {
+  break-before: avoid;
+  color: var(--brand-dark);
+  font-size: 22pt;
+  border: 0;
+}
+
+nav#TOC ul { list-style: none; padding-left: 1.1em; }
+nav#TOC > ul { padding-left: 0; }
+nav#TOC li { margin: 1.5mm 0; }
+nav#TOC a {
+  color: var(--ink);
+  text-decoration: none;
+  display: flex;
+  align-items: baseline;
+  gap: 2mm;
+}
+nav#TOC a::after {
+  content: "";
+  order: 1;
+  flex: 1 1 auto;
+  border-bottom: 0.5pt dotted #aeb8bd;
+}
+nav#TOC .toc-page {
+  order: 2;
+  min-width: 2.5em;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+h1, h2, h3, h4 {
+  font-family: "Noto Sans SC", "Source Han Sans CN", "PingFang SC", sans-serif;
+  color: var(--brand-dark);
+  text-align: left;
+  break-after: avoid;
+}
+
+section.level1,
+section.level2 {
+  break-before: page;
+}
+
+h1 {
+  break-before: page;
+  min-height: 105mm;
+  box-sizing: border-box;
+  padding-top: 40mm;
+  margin: 0 0 14mm;
+  font-size: 26pt;
+  line-height: 1.3;
+  border-bottom: 2.5pt solid var(--brand);
+}
+
+h2 {
+  break-before: page;
+  padding-top: 6mm;
+  margin: 0 0 9mm;
+  font-size: 20pt;
+  line-height: 1.35;
+  border-bottom: 1pt solid var(--line);
+  padding-bottom: 4mm;
+}
+
+h3 {
+  margin: 8mm 0 3mm;
+  font-size: 14pt;
+  line-height: 1.4;
+}
+
+h4 {
+  margin: 6mm 0 2mm;
+  font-size: 11.5pt;
+}
+
+section.level3[id^="本章小结"],
+section.level3[id$="篇小结"],
+section.level3[id^="快速应用"] {
+  break-inside: avoid;
+}
+
+p { margin: 0 0 3.2mm; orphans: 3; widows: 3; }
+
+figure {
+  margin: 7mm 0 8mm;
+  text-align: center;
+  break-inside: avoid;
+}
+
+figure img {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto;
+  border-radius: 2mm;
+  box-shadow: 0 1.2mm 3.2mm rgba(17, 42, 46, 0.16);
+}
+
+figcaption {
+  margin-top: 2.5mm;
+  color: var(--muted);
+  font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-size: 8.8pt;
+  line-height: 1.45;
+  text-align: center;
+}
+
+blockquote {
+  margin: 6mm 0;
+  padding: 3.5mm 5mm;
+  background: var(--brand-soft);
+  border-left: 3pt solid var(--brand);
+  color: #26383b;
+  break-inside: avoid;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 5mm 0 7mm;
+  font-size: 8.6pt;
+  line-height: 1.45;
+  break-inside: auto;
+}
+
+thead { display: table-header-group; }
+tr { break-inside: avoid; }
+th, td {
+  border: 0.6pt solid #bfc8ce;
+  padding: 2.1mm 2.4mm;
+  vertical-align: top;
+  text-align: left;
+}
+th {
+  background: #dfecec;
+  color: #173b40;
+  font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-weight: 600;
+}
+tr:nth-child(even) td { background: #fafcfc; }
+
+code {
+  font-family: "SFMono-Regular", Menlo, Consolas, monospace;
+  font-size: 0.88em;
+  background: #f2f4f5;
+  padding: 0.15em 0.28em;
+  border-radius: 2px;
+}
+
+pre {
+  margin: 5mm 0 7mm;
+  padding: 4mm;
+  background: #172329;
+  color: #edf4f5;
+  border-radius: 2mm;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-size: 8.3pt;
+  line-height: 1.5;
+  break-inside: avoid;
+}
+
+pre code { color: inherit; background: transparent; padding: 0; }
+
+ul, ol { margin: 2mm 0 4.4mm; padding-left: 1.8em; }
+li { margin: 1.2mm 0; }
+hr { border: 0; border-top: 0.8pt solid var(--line); margin: 10mm 0; }
+
+a { color: var(--brand); }
+
+@media print {
+  a { color: inherit; text-decoration: none; }
+  h1:first-of-type { break-before: avoid; }
+}

@@ -1,0 +1,21 @@
+digraph G {
+  graph [bgcolor="#FBF7EF", pad="0.34", nodesep="0.38", ranksep="0.52", splines=polyline, fontname="PingFang SC", rankdir=TB];
+  node [shape=box, style="rounded,filled", fillcolor="#FFFFFF", color="#0F5961", penwidth=1.8, fontname="PingFang SC", fontcolor="#18363A", fontsize=17, margin="0.18,0.13"];
+  edge [color="#0F5961", penwidth=1.8, arrowsize=0.8, fontname="PingFang SC", fontcolor="#18363A", fontsize=12];
+
+  interview [label="访谈\n体验、认知、解释"];
+  observation [label="任务跟随\n真实动作、影子流程、隐性判断"];
+  logs [label="事件日志\n状态、时间、队列、失败"];
+  artifact [label="工件回放\n字段来源、版本、修改与遗漏"];
+  compare [label="证据对照\n一致处形成事实\n冲突处登记待验证假设", fillcolor="#0F5961", fontcolor="#FFFFFF", penwidth=2.3];
+  asis [label="可验证的 As-Is\n主流程＋变体＋异常＋基线＋根因假设"];
+  decision [label="约束下一步设计\n先解决最大损耗，不被第一个解释带走", fillcolor="#F3E4D2", color="#A75E21"];
+
+  {rank=same; interview; observation; logs; artifact}
+  {rank=same; asis; decision}
+  interview -> compare;
+  observation -> compare;
+  logs -> compare;
+  artifact -> compare;
+  compare -> asis -> decision;
+}

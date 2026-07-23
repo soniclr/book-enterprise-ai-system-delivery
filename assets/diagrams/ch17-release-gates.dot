@@ -1,0 +1,28 @@
+digraph G {
+  graph [rankdir=TB, bgcolor="#FBF7EF", pad=0.28, margin=0, nodesep=0.36, ranksep=0.58, fontname="PingFang SC", label="一次候选版本如何通过评估门禁", labelloc=t, fontsize=20, fontcolor="#18363A"];
+  node [shape=box, style="rounded,filled", fillcolor="#F4EBDD", color="#0F5961", fontcolor="#18363A", penwidth=1.5, fontname="PingFang SC", fontsize=11, margin="0.16,0.10"];
+  edge [color="#0F5961", penwidth=1.4, arrowsize=0.75, fontname="PingFang SC", fontsize=9, fontcolor="#18363A"];
+
+  candidate [label="候选版本清单\n模型 · Prompt · 知识 · 检索\n路由 · 工作流 · 工具", fillcolor="#DDEBE8"];
+  set [label="分层样本\n开发集 / 门禁集 / 保留集\n常规、边界、权限、攻击、回归"];
+  components [label="组件评估\n召回、权限、生成、结构、\n工具参数与轨迹不变量"];
+  e2e [label="端到端评估\n真实入口、身份、状态、审批、\n故障与业务终点"];
+  blocking [shape=diamond, label="阻断项全部通过？\n越权 / 泄露 / 未授权写回 = 0", fillcolor="#F1DCC7", color="#A75E21"];
+  nonreg [shape=diamond, label="非退化项在容差内？\n质量、P95、错误率、单位成本", fillcolor="#DDEBE8"];
+  business [shape=diamond, label="业务项达到试点目标？\n准备时间、修改、首次通过", fillcolor="#DDEBE8"];
+  rollout [label="小范围灰度\n预设停止线与观察窗口", fillcolor="#DDEBE8"];
+  fix [label="定位失败层级\n修检索 / 权限 / 工作流 / 工具\n或缩小适用场景", fillcolor="#F6E3D2", color="#A75E21"];
+  feedback [label="生产反馈回流\n新失败、漂移与红队样本\n进入受治理回归集"];
+
+  {rank=same; candidate; set; components;}
+  {rank=same; e2e; blocking; nonreg;}
+  {rank=same; business; rollout; feedback;}
+  candidate -> set -> components -> e2e -> blocking;
+  blocking -> nonreg [label="是"];
+  blocking -> fix [label="否", color="#A75E21"];
+  nonreg -> business [label="是"];
+  nonreg -> fix [label="否", color="#A75E21"];
+  business -> rollout [label="是"];
+  business -> fix [label="否/条件通过", color="#A75E21"];
+  rollout -> feedback -> set;
+}

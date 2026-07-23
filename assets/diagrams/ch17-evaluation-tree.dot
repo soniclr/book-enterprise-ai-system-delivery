@@ -1,0 +1,22 @@
+digraph G {
+  graph [rankdir=TB, bgcolor="#FBF7EF", pad=0.28, margin=0, nodesep=0.34, ranksep=0.52, fontname="PingFang SC", label="评估树：从业务结果分解到可执行证据", labelloc=t, fontsize=20, fontcolor="#18363A", size="11.3,7.7", ratio=compress];
+  node [shape=box, style="rounded,filled", fillcolor="#F4EBDD", color="#0F5961", fontcolor="#18363A", penwidth=1.5, fontname="PingFang SC", fontsize=11, margin="0.16,0.10"];
+  edge [color="#0F5961", penwidth=1.4, arrowsize=0.75, fontname="PingFang SC", fontsize=9, fontcolor="#18363A"];
+
+  outcome [label="业务结果\n更快产出可供主管评审的方案", fillcolor="#F1DCC7", color="#A75E21"];
+  quality [label="任务质量\n事实 · 引用 · 结构\n客户相关 · 可修改"];
+  flow [label="流程完成\n状态与分支正确\n审批、恢复、业务终点"];
+  risk [label="风险控制\n权限 · 数据路径\n禁止动作 · 高风险人审"];
+  perf [label="性能与可靠性\nP95 · 队列 · 完成率\ntrace 与故障恢复"];
+  cost [label="成本与人工投入\n单位成功任务成本\n修改、退回与审核时间"];
+  coverage [label="保留维度与失败类型\n不把五类指标压成一个总分", fillcolor="#F1DCC7", color="#A75E21"];
+  comp [label="组件证据\n输入理解 · 检索 · 生成\n路由 · 工具"];
+  e2e [label="端到端证据\n真实身份、知识、模型、\n审批、沙箱工具与写回"];
+  online [label="线上证据\n采用 · 放弃 · 重试 · 转人工\n投诉与真实流量漂移"];
+  gate [label="发布与运营门禁\n阻断项 / 非退化项 / 业务项", fillcolor="#DDEBE8"];
+
+  outcome -> {quality flow risk perf cost};
+  {quality flow risk perf cost} -> coverage;
+  coverage -> {comp e2e online};
+  {comp e2e online} -> gate;
+}

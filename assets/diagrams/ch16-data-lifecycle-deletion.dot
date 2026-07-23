@@ -1,0 +1,23 @@
+digraph G {
+  graph [rankdir=LR, bgcolor="#FBF7EF", pad=0.28, margin=0, nodesep=0.32, ranksep=0.64, fontname="PingFang SC", label="数据生命周期：删除必须覆盖所有派生副本", labelloc=t, fontsize=20, fontcolor="#18363A", size="11.3,7.7", ratio=compress];
+  node [shape=box, style="rounded,filled", fillcolor="#F4EBDD", color="#0F5961", fontcolor="#18363A", penwidth=1.5, fontname="PingFang SC", fontsize=11, margin="0.16,0.10"];
+  edge [color="#0F5961", penwidth=1.4, arrowsize=0.75, fontname="PingFang SC", fontsize=9, fontcolor="#18363A"];
+
+  collect [label="采集\n客户访谈 / 商机字段\n源系统权限与审计", fillcolor="#DDEBE8"];
+  process [label="处理\n去标识事实卡片\n任务期短存储"];
+  retrieve [label="检索\n片段 / 向量 / 元数据\n租户、对象、版本过滤"];
+  generate [label="生成\nPrompt / 输出 / 结构结果\n获准通道与最小日志"];
+  observe [label="观测\ntrace / 错误样本 / 分析表\n原文仅受控采样"];
+  evaluate [label="评估\n脱敏样本 / 标签 / 反馈\n单独授权与版本"];
+  backup [label="备份\n必要数据与配置\n独立权限和到期策略"];
+  trigger [label="删除触发\n源记录删除 · 权限撤销\n用途结束 · 留存到期", fillcolor="#F1DCC7", color="#A75E21"];
+  job [label="派生物清理任务\n按业务对象查询数据域映射\n逐存储返回处理状态", fillcolor="#F6E3D2", color="#A75E21"];
+  verify [shape=diamond, label="主库、索引、缓存、任务存储、\n日志、评估、供应商和备份\n均完成或受限到期？", fillcolor="#DDEBE8"];
+  proof [label="删除与恢复证据\n审计记录 · 负向查询\n不可变备份恢复限制", fillcolor="#DDEBE8"];
+
+  collect -> process -> retrieve -> generate;
+  generate -> {observe evaluate backup};
+  trigger -> job [color="#A75E21"];
+  job -> {collect process retrieve generate observe evaluate backup} [style=dashed, color="#A75E21"];
+  job -> verify -> proof;
+}

@@ -1,0 +1,29 @@
+digraph G {
+  graph [bgcolor="#FBF7EF", pad="0.34", nodesep="0.34", ranksep="0.52", splines=polyline, fontname="PingFang SC", rankdir=TB];
+  node [shape=box, style="rounded,filled", fillcolor="#FFFFFF", color="#0F5961", penwidth=1.8, fontname="PingFang SC", fontcolor="#18363A", fontsize=14, margin="0.17,0.12"];
+  edge [color="#0F5961", penwidth=1.8, arrowsize=0.78, fontname="PingFang SC", fontcolor="#18363A", fontsize=9];
+
+  goal [label="业务目标\n缩短方案准备时间\n保持承诺可控", fillcolor="#0F5961", fontcolor="#FFFFFF"];
+  business [label="业务场景图\n触发、用户、动作、人审、范围"];
+  data [label="数据流图\n商机、产品、报价、身份与去向"];
+  system [label="系统集成图\nCRM、知识、工作流、审批与写回"];
+  risk [label="风险控制图\n权限、引用、批准、幂等与暂停"];
+  metric [label="指标与证据\n草稿 ID、审批 ID、引用、后置条件", fillcolor="#0F5961", fontcolor="#FFFFFF"];
+  matrix [label="追踪矩阵\n动作 × 数据 × 接口 × 控制 × Owner", fillcolor="#F3E4D2", color="#A75E21"];
+  gap1 [label="只有动作，没有数据或系统\n＝实现缺口", fillcolor="#F6DDD7", color="#A75E21"];
+  gap2 [label="只有控制，没有执行组件\n＝治理缺口", fillcolor="#F6DDD7", color="#A75E21"];
+  gap3 [label="只有数据，没有 Owner\n＝责任缺口", fillcolor="#F6DDD7", color="#A75E21"];
+
+  {rank=same; goal; business; data}
+  {rank=same; system; risk; metric}
+  {rank=same; gap1; gap2; gap3}
+  goal -> business -> data -> system -> risk -> metric;
+  business -> matrix [style=dashed, color="#A75E21"];
+  data -> matrix [style=dashed, color="#A75E21"];
+  system -> matrix [style=dashed, color="#A75E21"];
+  risk -> matrix [style=dashed, color="#A75E21"];
+  metric -> matrix [style=dashed, color="#A75E21"];
+  matrix -> gap1 [label="断链检查"];
+  matrix -> gap2 [label="断链检查"];
+  matrix -> gap3 [label="断链检查"];
+}

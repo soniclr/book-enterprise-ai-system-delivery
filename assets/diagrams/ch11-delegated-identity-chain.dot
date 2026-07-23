@@ -1,0 +1,26 @@
+digraph G {
+  graph [bgcolor="#FBF7EF", pad="0.34", nodesep="0.34", ranksep="0.52", splines=polyline, fontname="PingFang SC", rankdir=TB];
+  node [shape=box, style="rounded,filled", fillcolor="#FFFFFF", color="#0F5961", penwidth=1.8, fontname="PingFang SC", fontcolor="#18363A", fontsize=14, margin="0.17,0.12"];
+  edge [color="#0F5961", penwidth=1.8, arrowsize=0.78, fontname="PingFang SC", fontcolor="#18363A", fontsize=9];
+
+  user [label="销售用户\n登录并选择商机", fillcolor="#0F5961", fontcolor="#FFFFFF"];
+  app [label="业务应用\n验证会话与任务目的"];
+  broker [label="身份代理\n请求场景、对象、动作与期限"];
+  auth [label="授权服务\n校验用户对商机和字段的权限", fillcolor="#F3E4D2", color="#A75E21"];
+  delegated [label="短期委托上下文\n用户＋服务双重身份\n限定对象、字段与有效期"];
+  adapter [label="CRM 适配器\n服务有接口权\n用户仍须有对象权"];
+  crm [label="权威 CRM\n返回获准字段", fillcolor="#0F5961", fontcolor="#FFFFFF"];
+  trace [label="审计 trace\n用户、服务、对象、字段、结果", fillcolor="#F3E4D2", color="#A75E21"];
+  approval [label="写回前重新授权\n绑定任务、版本、字段和批准\n读取令牌不能自然升级"];
+
+  {rank=same; user; app; broker; auth}
+  {rank=same; delegated; adapter; crm}
+  {rank=same; trace; approval}
+  user -> app -> broker -> auth -> delegated -> adapter -> crm;
+  app -> trace [style=dashed, color="#A75E21"];
+  auth -> trace [style=dashed, color="#A75E21"];
+  adapter -> trace [style=dashed, color="#A75E21"];
+  crm -> trace [style=dashed, color="#A75E21"];
+  delegated -> approval [label="进入写回阶段", color="#A75E21"];
+  approval -> adapter [label="一次性执行授权", color="#A75E21"];
+}

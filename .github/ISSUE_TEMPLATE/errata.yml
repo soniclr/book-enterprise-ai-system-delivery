@@ -1,0 +1,38 @@
+name: 书稿勘误
+description: 报告 PDF 中的错误或需要复核的事实
+title: "[勘误] "
+labels:
+  - errata
+body:
+  - type: input
+    id: page
+    attributes:
+      label: PDF 页码
+      placeholder: 例如：第 128 页
+    validations:
+      required: true
+  - type: textarea
+    id: original
+    attributes:
+      label: 原文位置与内容
+      description: 请提供足以定位问题的短句，不要粘贴大段书稿。
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: 问题说明与建议修订
+    validations:
+      required: true
+  - type: textarea
+    id: sources
+    attributes:
+      label: 公开来源
+      description: 如涉及事实更新，请提供官方或其他可公开核查的链接。
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: 信息确认
+      options:
+        - label: 我确认本 Issue 不含客户资料、内部文档、访问凭据或其他敏感信息。
+          required: true

@@ -1,0 +1,31 @@
+digraph G {
+  graph [bgcolor="#FBF7EF", pad="0.32", nodesep="0.24", ranksep="0.36", splines=polyline, fontname="PingFang SC", rankdir=TB];
+  node [shape=box, style="rounded,filled", fillcolor="#FFFFFF", color="#0F5961", penwidth=1.7, fontname="PingFang SC", fontcolor="#18363A", fontsize=11, margin="0.14,0.09"];
+  edge [color="#0F5961", penwidth=1.6, arrowsize=0.70, fontname="PingFang SC", fontcolor="#18363A", fontsize=8];
+
+  t [label="已转写"];
+  e [label="已提取草稿"];
+  h [label="主持人确认中"];
+  o [label="责任人确认中"];
+  r [label="可创建"];
+  c [label="已创建"];
+  m [label="监控中"];
+  x [label="已关闭", fillcolor="#0F5961", fontcolor="#FFFFFF"];
+  clarify [label="待补充／角色分歧", fillcolor="#F3E4D2", color="#A75E21"];
+  retry [label="写回结果未知\n查询后置条件再重试", fillcolor="#F3E4D2", color="#A75E21"];
+  change [label="变更待确认\n不直接删除在执行任务", fillcolor="#F3E4D2", color="#A75E21"];
+  blocked [label="敏感会议无获准路径\n保留人工纪要", fillcolor="#F6DDD7", color="#A75E21"];
+
+  {rank=same; t; e; h;}
+  {rank=same; o; r; c;}
+  {rank=same; m; x;}
+  t -> e -> h -> o -> r -> c -> m -> x;
+  h -> clarify [label="缺信息／有异议"];
+  o -> clarify [label="拒绝／责任不明"];
+  clarify -> h [label="协调后重审"];
+  r -> retry [label="超时／失败"];
+  retry -> c [label="已存在或恢复成功"];
+  c -> change [label="会后纠错"];
+  change -> m [label="新确认生效"];
+  t -> blocked [label="策略阻断"];
+}

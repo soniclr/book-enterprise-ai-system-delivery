@@ -1,0 +1,32 @@
+digraph G {
+  graph [bgcolor="#FBF7EF", pad="0.30", nodesep="0.28", ranksep="0.36", splines=ortho, fontname="PingFang SC", rankdir=LR, compound=true];
+  node [shape=box, style="rounded,filled", fillcolor="#FFFFFF", color="#0F5961", penwidth=1.7, fontname="PingFang SC", fontcolor="#18363A", fontsize=14, margin="0.16,0.10"];
+  edge [color="#0F5961", penwidth=1.7, arrowsize=0.75, fontname="PingFang SC", fontcolor="#18363A", fontsize=10];
+
+  subgraph cluster_sales {
+    label="销售"; color="#A75E21"; fontcolor="#18363A"; fontname="PingFang SC"; fontsize=15; style="rounded,dashed";
+    s1 [label="确认有效商机\n主动发起"];
+    s2 [label="确认事实、引用\n提交高风险差异"];
+  }
+  subgraph cluster_workflow {
+    label="AI 工作流"; color="#0F5961"; fontcolor="#18363A"; fontname="PingFang SC"; fontsize=15; style="rounded,dashed";
+    w1 [label="创建 task_id\n检查必填与权限"];
+    w2 [label="组装最小上下文\n调用模型并校验结构"];
+    w3 [label="绑定版本\n路由审批／写回"];
+  }
+  subgraph cluster_knowledge {
+    label="知识服务"; color="#0F5961"; fontcolor="#18363A"; fontname="PingFang SC"; fontsize=15; style="rounded,dashed";
+    k1 [label="按身份过滤\n返回片段、引用与缺口"];
+  }
+  subgraph cluster_approval {
+    label="主管"; color="#A75E21"; fontcolor="#18363A"; fontname="PingFang SC"; fontsize=15; style="rounded,dashed";
+    a1 [label="批准具体版本的\n报价与承诺差异"];
+  }
+  subgraph cluster_system {
+    label="文档／CRM"; color="#0F5961"; fontcolor="#18363A"; fontname="PingFang SC"; fontsize=15; style="rounded,dashed";
+    c1 [label="幂等创建草稿\n写回并验证后置条件"];
+  }
+
+  s1 -> w1 -> k1 -> w2 -> s2 -> w3 -> a1 -> c1;
+  a1 -> s2 [label="拒绝/补充", color="#A75E21", constraint=false];
+}

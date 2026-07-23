@@ -1,0 +1,28 @@
+digraph G {
+  graph [bgcolor="#FBF7EF", pad="0.34", nodesep="0.38", ranksep="0.50", splines=polyline, fontname="PingFang SC", rankdir=TB];
+  node [shape=box, style="rounded,filled", fillcolor="#FFFFFF", color="#0F5961", penwidth=1.8, fontname="PingFang SC", fontcolor="#18363A", fontsize=15, margin="0.18,0.12"];
+  edge [color="#0F5961", penwidth=1.8, arrowsize=0.78, fontname="PingFang SC", fontcolor="#18363A", fontsize=10];
+
+  package [label="版本化评审包\n图、ADR、非功能预算、差距、证据", fillcolor="#0F5961", fontcolor="#FFFFFF"];
+  business [label="业务轮\n价值、范围、流程、人审、指标"];
+  architecture [label="架构轮\n数据、系统、部署、容量、成本"];
+  control [label="控制轮\n权限、安全、评估、事故、门禁"];
+  decision [label="决定状态", shape=diamond, style="filled", fillcolor="#F3E4D2", color="#A75E21"];
+  pass [label="通过\n按批准范围实施", fillcolor="#DCECE8"];
+  conditional [label="条件通过\n条件＋Owner＋截止门禁＋证据"];
+  defer [label="暂缓\n补实验、样本或责任安排"];
+  reject [label="否决\n停止当前路径或缩小范围", fillcolor="#F6DDD7", color="#A75E21"];
+  evidence [label="补充证据\n设想 → 设计 → 原型 → 运行 → 生产", fillcolor="#F3E4D2", color="#A75E21"];
+  version [label="发布决定摘要与新版本\n变化影响数据、权限或门禁时重新评审"];
+
+  package -> business -> architecture -> control -> decision;
+  decision -> pass;
+  decision -> conditional;
+  decision -> defer;
+  decision -> reject;
+  conditional -> evidence;
+  defer -> evidence;
+  evidence -> package [label="带证据复审", color="#A75E21"];
+  pass -> version;
+  conditional -> version [label="条件关闭后"];
+}

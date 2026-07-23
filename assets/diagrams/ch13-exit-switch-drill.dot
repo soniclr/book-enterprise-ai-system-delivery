@@ -1,0 +1,25 @@
+digraph G {
+  graph [bgcolor="#FBF7EF", pad="0.34", nodesep="0.36", ranksep="0.52", splines=polyline, fontname="PingFang SC", rankdir=TB];
+  node [shape=box, style="rounded,filled", fillcolor="#FFFFFF", color="#0F5961", penwidth=1.8, fontname="PingFang SC", fontcolor="#18363A", fontsize=14, margin="0.17,0.12"];
+  edge [color="#0F5961", penwidth=1.8, arrowsize=0.78, fontname="PingFang SC", fontcolor="#18363A", fontsize=9];
+
+  scope [label="定义演练范围与恢复目标\n任务、质量下降、最大切换时间", fillcolor="#0F5961", fontcolor="#FFFFFF"];
+  freeze [label="冻结配置变更\n标记当前版本"];
+  export [label="导出可迁移资产\n逻辑模型、Prompt、评估集、用量"];
+  revoke [label="撤销主路径凭据\n阻止旧队列与重试继续发送", fillcolor="#F3E4D2", color="#A75E21"];
+  switch [label="策略网关切到备用路径\n必要时增加人工确认"];
+  replay [label="重放代表性任务\n结构、来源、质量、成本、兼容"];
+  verify [label="验证监控、账单与数据删除\n保留完成证据"];
+  gaps [label="记录隐藏绑定\n字段类型、模型名、专有格式、权限"];
+  pass [label="退出能力已验证\n更新 ADR 与运行手册", fillcolor="#0F5961", fontcolor="#FFFFFF"];
+  rollback [label="未通过：恢复受控旧路径\n修复后再次演练", fillcolor="#F6DDD7", color="#A75E21"];
+
+  {rank=same; scope; freeze; export}
+  {rank=same; revoke; switch; replay}
+  {rank=same; verify; gaps}
+  {rank=same; pass; rollback}
+  scope -> freeze -> export -> revoke -> switch -> replay -> verify -> gaps;
+  gaps -> pass [label="门槛通过"];
+  gaps -> rollback [label="发现阻断"];
+  rollback -> scope [label="修复并重跑", color="#A75E21", constraint=false];
+}

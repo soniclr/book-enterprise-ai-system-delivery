@@ -1,0 +1,18 @@
+digraph G {
+  graph [bgcolor="#FBF7EF", pad="0.34", nodesep="0.44", ranksep="0.50", splines=polyline, fontname="PingFang SC", rankdir=TB];
+  node [shape=box, style="rounded,filled", fillcolor="#FFFFFF", color="#0F5961", penwidth=1.8, fontname="PingFang SC", fontcolor="#18363A", fontsize=17, margin="0.19,0.14"];
+  edge [color="#0F5961", penwidth=1.9, arrowsize=0.8, fontname="PingFang SC", fontcolor="#18363A", fontsize=12];
+
+  asis [label="As-Is 证据\n损耗｜根因｜隐性决策｜必要控制", fillcolor="#F3E4D2", color="#A75E21"];
+  eliminate [label="① 消除\n删除无价值补丁与重复录入"];
+  merge [label="② 合并\n在同一上下文完成相关动作"];
+  front [label="③ 前移\n把完整性、版本与风险检查放到返工前"];
+  standard [label="④ 标准化\n显性规则、输出契约、升级条件"];
+  ai [label="⑤ 选择 AI 介入点\n自动｜草拟确认｜建议决策｜暂不使用", fillcolor="#0F5961", fontcolor="#FFFFFF"];
+  verify [label="可验证 To-Be\n每项变化对应损耗、Owner 与指标"];
+
+  {rank=same; eliminate; merge}
+  {rank=same; front; standard}
+  {rank=same; ai; verify}
+  asis -> eliminate -> merge -> front -> standard -> ai -> verify;
+}

@@ -1,0 +1,26 @@
+digraph G {
+  graph [bgcolor="#FBF7EF", pad="0.34", nodesep="0.46", ranksep="0.48", splines=polyline, fontname="PingFang SC", rankdir=TB];
+  node [shape=box, style="rounded,filled", fillcolor="#FFFFFF", color="#0F5961", penwidth=1.8, fontname="PingFang SC", fontcolor="#18363A", fontsize=17, margin="0.18,0.13"];
+  edge [color="#0F5961", penwidth=1.8, arrowsize=0.8, fontname="PingFang SC", fontcolor="#18363A", fontsize=12];
+
+  base [label="可审计基线\n任务量｜处理/等待/返工｜质量｜风险｜成本", fillcolor="#F3E4D2", color="#A75E21"];
+  value [label="可兑现价值\n符合范围任务 × 采用率 × 成功率 × 净节省时间"];
+  cost [label="完整成本\n模型与基础设施＋人审＋运行＋知识维护＋工程摊销"];
+  unit [label="单位成功任务经济性\n总成本 ÷ 完成质量门槛和业务后置条件的任务数", fillcolor="#0F5961", fontcolor="#FFFFFF"];
+  guards [label="共同门槛\n业务价值｜质量｜风险｜成本"];
+  go [label="继续／扩大", fillcolor="#DCECE8"];
+  narrow [label="有条件继续／缩小范围", fillcolor="#F3E4D2", color="#A75E21"];
+  stop [label="暂停／终止", fillcolor="#F6DDD7", color="#A75E21"];
+
+  {rank=same; value; cost}
+  {rank=same; go; narrow; stop}
+  base -> value;
+  base -> cost;
+  value -> unit;
+  cost -> unit;
+  unit -> guards;
+  guards -> go [label="全部满足"];
+  guards -> narrow [label="部分成立"];
+  guards -> stop [label="核心假设失败或护栏触发"];
+  narrow -> base [label="补证据后再评审", color="#A75E21", constraint=false, style=dashed];
+}

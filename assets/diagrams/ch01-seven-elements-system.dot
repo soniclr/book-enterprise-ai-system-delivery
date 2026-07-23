@@ -1,0 +1,26 @@
+digraph G {
+  graph [bgcolor="#FBF7EF", pad="0.30", nodesep="0.34", ranksep="0.48", splines=ortho, fontname="PingFang SC", rankdir=LR];
+  node [shape=box, style="rounded,filled", fillcolor="#FFFFFF", color="#0F5961", penwidth=1.8, fontname="PingFang SC", fontcolor="#18363A", fontsize=18, margin="0.20,0.13"];
+  edge [color="#0F5961", penwidth=1.7, arrowsize=0.8, fontname="PingFang SC", fontcolor="#18363A", fontsize=13];
+
+  person [label="人\n使用者｜审核者｜受影响者｜结果负责人"];
+  process [label="流程\n触发｜步骤｜终点"];
+  data [label="数据\n事实｜权限｜版本｜时效"];
+  result [label="可验证的业务结果\n时间｜质量｜成本｜风险｜收入", fillcolor="#0F5961", fontcolor="#FFFFFF", penwidth=2.4];
+  tools [label="工具\n读取｜生成｜写入｜发送"];
+  rules [label="规则\n业务约束｜权限｜审批｜格式"];
+  metrics [label="指标\n主指标｜护栏指标｜诊断指标"];
+  feedback [label="反馈回路\n发现错误 → 纠正 → 沉淀 → 再评估", fillcolor="#F3E4D2", color="#A75E21", penwidth=2.1];
+
+  {rank=same; person; process; data}
+  person -> result;
+  process -> result;
+  data -> result;
+  tools -> result;
+  rules -> result;
+  metrics -> result;
+  result -> feedback [color="#A75E21", label="运行证据"];
+  feedback -> person [color="#A75E21", label="调整责任"];
+  feedback -> process [color="#A75E21", label="改进流程"];
+  feedback -> data [color="#A75E21", label="更新知识"];
+}
